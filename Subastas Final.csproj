@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C5E83A7D-9AF5-45F6-BF43-19921F4A9C08}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Subastas_Final</RootNamespace>
+    <AssemblyName>Subastas Final</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\ArticuloController.cs" />
+    <Compile Include="Controllers\PostorController.cs" />
+    <Compile Include="Controllers\SubastaController.cs" />
+    <Compile Include="Controllers\SubastadorController.cs" />
+    <Compile Include="Entities\Articulo.cs" />
+    <Compile Include="Entities\Postor.cs" />
+    <Compile Include="Entities\Puja.cs" />
+    <Compile Include="Entities\Subasta.cs" />
+    <Compile Include="Entities\Subastador.cs" />
+    <Compile Include="Views\RegistroPostorView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\RegistroPostorView.Designer.cs">
+      <DependentUpon>RegistroPostorView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegistroSubastadorView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\RegistroSubastadorView.Designer.cs">
+      <DependentUpon>RegistroSubastadorView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SubastadorView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SubastadorView.Designer.cs">
+      <DependentUpon>SubastadorView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Inicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Inicio.Designer.cs">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IArticuloRepository.cs" />
+    <Compile Include="Interfaces\IPostorRepository.cs" />
+    <Compile Include="Interfaces\ISubastadorRepository.cs" />
+    <Compile Include="Interfaces\ISubastaRepository.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ArticuloRepository.cs" />
+    <Compile Include="Repositories\PostorRepository.cs" />
+    <Compile Include="Repositories\SubastadorRepository.cs" />
+    <Compile Include="Repositories\SubastaRepository.cs" />
+    <Compile Include="Services\ArticuloService.cs" />
+    <Compile Include="Services\PostorService.cs" />
+    <Compile Include="Services\SubastadorService.cs" />
+    <Compile Include="Services\SubastaService.cs" />
+    <Compile Include="Views\PostorView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\PostorView.Designer.cs">
+      <DependentUpon>PostorView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Views\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PostorView.resx">
+      <DependentUpon>PostorView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\RegistroPostorView.resx">
+      <DependentUpon>RegistroPostorView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\RegistroSubastadorView.resx">
+      <DependentUpon>RegistroSubastadorView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SubastadorView.resx">
+      <DependentUpon>SubastadorView.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
