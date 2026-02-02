@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Subastas_Final.Entities
 {
     public class Puja
     {
+        private int idPuja;
         private Postor postor;
         private Subasta subasta;
         private double monto;
         private DateTime fecha;
 
-
+        public int IdPuja { get => idPuja; set => idPuja = value; }  
         public double Monto { get => monto; set => monto = value; }
         public DateTime Fecha { get => fecha; set => fecha = value; }
         public Postor Postor { get => postor; set => postor = value; }
@@ -33,7 +30,7 @@ namespace Subastas_Final.Entities
 
         public override string ToString()
         {
-            return $"Puja Monto: {monto}, Fecha: {fecha}, Postor: {postor}, Subasta: {subasta}";
+            return $"Puja Id: {idPuja}, Monto: {monto}, Fecha: {fecha}, Postor: {postor?.Nombre}, Subasta: {subasta?.IdSubasta}";
         }
     }
 }
