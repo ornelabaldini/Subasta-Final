@@ -40,7 +40,7 @@
             // labelTitulo
             // 
             this.labelTitulo.Font = new System.Drawing.Font("Impact", 26F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitulo.Location = new System.Drawing.Point(370, 44);
+            this.labelTitulo.Location = new System.Drawing.Point(383, 43);
             this.labelTitulo.Name = "labelTitulo";
             this.labelTitulo.Size = new System.Drawing.Size(470, 64);
             this.labelTitulo.TabIndex = 2;
@@ -103,7 +103,7 @@
             this.btnIngresar.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.btnIngresar.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIngresar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnIngresar.Location = new System.Drawing.Point(511, 385);
+            this.btnIngresar.Location = new System.Drawing.Point(516, 383);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(165, 53);
             this.btnIngresar.TabIndex = 5;

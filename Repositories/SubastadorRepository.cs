@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Subastas_Final.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,19 +9,19 @@ namespace Subastas_Final.Repositories
 {
     internal class SubastadorRepository
     {
-        readonly List<Entities.Subastador> subastadores;
-        private static int nextId = 1;
+        private static List<Subastador> subastadores = new List<Subastador>();
+        private static int siguienteIdSubastador = 1;
 
-        public List<Entities.Subastador> Subastadores { get => subastadores; }
-        public int SiguienteIdSubastador { get => nextId++; }
-
+        public List<Subastador> Subastadores { get => subastadores; }
+        public int SiguienteIdSubastador { get => siguienteIdSubastador++; }
         public SubastadorRepository()
         {
-            subastadores = new List<Entities.Subastador>();
+            // lista estática existente
 
         }
         public void CrearSubastador(Entities.Subastador subastador)
         {
+            subastador.IdSubastador = SiguienteIdSubastador;
             subastadores.Add(subastador);
         }
         public List<Entities.Subastador> ObtenerTodosSubastadores()

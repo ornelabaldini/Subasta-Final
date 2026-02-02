@@ -20,6 +20,7 @@
             this.lblEmail = new System.Windows.Forms.Label();
             this.dgvPostores = new System.Windows.Forms.DataGridView();
             this.btnMostrarPostores = new System.Windows.Forms.Button();
+            this.btnVolver = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPostores)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,15 +70,30 @@
             // btnMostrarPostores
             // 
             this.btnMostrarPostores.BackColor = System.Drawing.Color.Black;
+            this.btnMostrarPostores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMostrarPostores.Font = new System.Drawing.Font("Javanese Text", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMostrarPostores.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnMostrarPostores.Location = new System.Drawing.Point(12, 162);
             this.btnMostrarPostores.Name = "btnMostrarPostores";
-            this.btnMostrarPostores.Size = new System.Drawing.Size(180, 37);
+            this.btnMostrarPostores.Size = new System.Drawing.Size(221, 37);
             this.btnMostrarPostores.TabIndex = 4;
             this.btnMostrarPostores.Text = "Mostrar Postores";
             this.btnMostrarPostores.UseVisualStyleBackColor = false;
             this.btnMostrarPostores.Click += new System.EventHandler(this.btnMostrarPostores_Click);
+            // 
+            // btnVolver
+            // 
+            this.btnVolver.BackColor = System.Drawing.Color.Black;
+            this.btnVolver.FlatAppearance.BorderSize = 0;
+            this.btnVolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVolver.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnVolver.Location = new System.Drawing.Point(12, 12);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(72, 29);
+            this.btnVolver.TabIndex = 5;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = false;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // PostorView
             // 
@@ -85,6 +101,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnMostrarPostores);
             this.Controls.Add(this.dgvPostores);
             this.Controls.Add(this.lblBienvenido);
@@ -106,5 +123,6 @@
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.DataGridView dgvPostores;
         private System.Windows.Forms.Button btnMostrarPostores;
+        private System.Windows.Forms.Button btnVolver;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Subastas_Final.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,17 +9,19 @@ namespace Subastas_Final.Repositories
 {
     internal class ArticuloRepository
     {
-        readonly List<Entities.Articulo> articulos;
-        private static int nextId = 1;
-        public List<Entities.Articulo> Articulos { get => articulos; }
-        public int SiguienteIdArticulo { get => nextId++; }
+        private static List<Articulo> articulos = new List<Articulo>();
+        private static int siguienteIdArticulo = 1;
+
+        public List<Articulo> Articulos { get => articulos; }
+        public int SiguienteIdArticulo { get => siguienteIdArticulo++; }
         public ArticuloRepository()
         {
-            articulos = new List<Entities.Articulo>();
+            // usamos la lista estática existente
         }
 
         public void CrearArticulo(Entities.Articulo articulo)
         {
+            articulo.IdArticulo = SiguienteIdArticulo;
             articulos.Add(articulo);
         }
 

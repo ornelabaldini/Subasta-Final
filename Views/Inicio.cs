@@ -50,10 +50,10 @@ namespace Subastas_Final
                 {
                     Subastador sub = registro.Subastador;
 
-                    // Aquí podés llamar al Service para guardar en la lista o DB
+                    // Aca podés llamar al Service para guardar en la lista o DB
                     SubastadorView frm = new SubastadorView(sub);
                     frm.Show();
-                    this.Hide();
+                    
                 }
             }
             else if (rbPostor.Checked)
@@ -63,10 +63,10 @@ namespace Subastas_Final
                 {
                     Postor post = registro.Postor;
 
-                    // Aquí podés llamar al Service para guardar en la lista o DB
+                    // Aca podés llamar al Service para guardar en la lista o DB
                     PostorView frm = new PostorView(post);
                     frm.Show();
-                    this.Hide();
+                    
                 }
             }
         }

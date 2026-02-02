@@ -8,17 +8,19 @@ using System.Threading.Tasks;
 namespace Subastas_Final.Repositories
 {
     internal class PostorRepository
-    {  
-        readonly List<Postor> postores;
-        private int siguienteIdPostor = 1;
+    {
+        private static List<Postor> postores = new List<Postor>();
+        private static int siguienteIdPostor = 1;
+
         public List<Postor> Postores { get => postores; }
         public int SiguienteIdPostor { get => siguienteIdPostor++; }
         public PostorRepository()
         {
-            postores = new List<Postor>();
+            //  usamos la lista estática existente
         }
         public void CrearPostor(Postor postor)
         {
+            postor.IdPostor = SiguienteIdPostor; // asigna un ID único
             postores.Add(postor);
         }
         public List<Postor> ObtenerTodosPostores()

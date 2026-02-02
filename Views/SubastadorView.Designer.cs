@@ -20,6 +20,7 @@
             this.lblEmail = new System.Windows.Forms.Label();
             this.dgvSubastadores = new System.Windows.Forms.DataGridView();
             this.btnMostrarSubastadores = new System.Windows.Forms.Button();
+            this.btnVolver = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubastadores)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,19 +66,35 @@
             this.dgvSubastadores.Size = new System.Drawing.Size(616, 188);
             this.dgvSubastadores.TabIndex = 3;
             this.dgvSubastadores.Visible = false;
+            this.dgvSubastadores.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSubastadores_CellContentClick);
             // 
             // btnMostrarSubastadores
             // 
             this.btnMostrarSubastadores.BackColor = System.Drawing.Color.Black;
+            this.btnMostrarSubastadores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMostrarSubastadores.Font = new System.Drawing.Font("Javanese Text", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMostrarSubastadores.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnMostrarSubastadores.Location = new System.Drawing.Point(12, 181);
             this.btnMostrarSubastadores.Name = "btnMostrarSubastadores";
-            this.btnMostrarSubastadores.Size = new System.Drawing.Size(183, 38);
+            this.btnMostrarSubastadores.Size = new System.Drawing.Size(226, 38);
             this.btnMostrarSubastadores.TabIndex = 4;
             this.btnMostrarSubastadores.Text = "Mostrar Subastadores";
             this.btnMostrarSubastadores.UseVisualStyleBackColor = false;
             this.btnMostrarSubastadores.Click += new System.EventHandler(this.btnMostrarSubastadores_Click);
+            // 
+            // btnVolver
+            // 
+            this.btnVolver.BackColor = System.Drawing.Color.Black;
+            this.btnVolver.FlatAppearance.BorderSize = 0;
+            this.btnVolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVolver.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnVolver.Location = new System.Drawing.Point(12, 12);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(72, 29);
+            this.btnVolver.TabIndex = 6;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = false;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // SubastadorView
             // 
@@ -85,6 +102,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnMostrarSubastadores);
             this.Controls.Add(this.dgvSubastadores);
             this.Controls.Add(this.lblBienvenido);
@@ -107,5 +125,6 @@
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.DataGridView dgvSubastadores;
         private System.Windows.Forms.Button btnMostrarSubastadores;
+        private System.Windows.Forms.Button btnVolver;
     }
 }

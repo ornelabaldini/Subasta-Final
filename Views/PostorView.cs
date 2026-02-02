@@ -18,6 +18,14 @@ namespace Subastas_Final.Views
             lblBienvenido.Text = $"Bienvenid@ {postor.Nombre}";
             lblId.Text = $"ID: {postor.IdPostor}";
             lblEmail.Text = $"Email: {postor.Email}";
+
+            // Configuración del DataGridView
+            dgvPostores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPostores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvPostores.MultiSelect = false;
+
+            // Cargar los postores desde el inicio
+            CargarPostores();
         }
 
         private void dgvPostores_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -44,9 +52,16 @@ namespace Subastas_Final.Views
         private void CargarPostores()
         {
             var repo = new PostorRepository();
+            var lista = repo.ObtenerTodosPostores();
+            MessageBox.Show(lista.Count.ToString());
+            MessageBox.Show(lista.Count.ToString());
             dgvPostores.DataSource = null; // limpiar antes
             dgvPostores.DataSource = repo.ObtenerTodosPostores();
         }
 
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
