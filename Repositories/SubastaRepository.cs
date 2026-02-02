@@ -45,7 +45,7 @@ namespace Subastas_Final.Repositories
                 subasta.MontoActual = subastaActualizada.MontoActual;
                 subasta.Postores = subastaActualizada.Postores;
                 subasta.Articulo = subastaActualizada.Articulo;
-                subasta.Puja = subastaActualizada.Puja;
+                subasta.Pujas = subastaActualizada.Pujas;
             }
         }
         public void EliminarSubasta(int idSubasta)
