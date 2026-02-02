@@ -13,7 +13,7 @@ Una subasta se crea con:
 - Nombre del subastador
 - Artículo
 - Puja inicial (precio base)
-- Puja de aumento (incremento mínimo)
+- Incremento mínimo (puja)
 - Fecha y horario de inicio
 - Duración total en minutos
 
