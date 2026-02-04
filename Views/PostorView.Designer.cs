@@ -112,8 +112,7 @@
             this.cmbFiltroSubastas.FormattingEnabled = true;
             this.cmbFiltroSubastas.Items.AddRange(new object[] {
             "Subastas en curso",
-            "Últimas 10 finalizadas",
-            "Subastas pendientes"});
+            "Últimas 10 finalizadas"});
             this.cmbFiltroSubastas.Location = new System.Drawing.Point(12, 185);
             this.cmbFiltroSubastas.Name = "cmbFiltroSubastas";
             this.cmbFiltroSubastas.Size = new System.Drawing.Size(172, 28);
@@ -129,7 +128,6 @@
             this.label1.Size = new System.Drawing.Size(183, 20);
             this.label1.TabIndex = 11;
             this.label1.Text = "Seleccioná una  subasta";
-           
             // 
             // PostorView
             // 

@@ -109,8 +109,7 @@
             this.cmbFiltroSubastas.FormattingEnabled = true;
             this.cmbFiltroSubastas.Items.AddRange(new object[] {
             "Subastas en curso",
-            "Últimas 10 finalizadas",
-            "Subastas pendientes"});
+            "Últimas 10 finalizadas"});
             this.cmbFiltroSubastas.Location = new System.Drawing.Point(22, 109);
             this.cmbFiltroSubastas.Name = "cmbFiltroSubastas";
             this.cmbFiltroSubastas.Size = new System.Drawing.Size(172, 28);
@@ -136,7 +135,6 @@
             this.lblArticulo.Size = new System.Drawing.Size(62, 20);
             this.lblArticulo.TabIndex = 9;
             this.lblArticulo.Text = "Articulo";
-            this.lblArticulo.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -157,7 +155,6 @@
             this.lblPujaMinima.Size = new System.Drawing.Size(94, 20);
             this.lblPujaMinima.TabIndex = 11;
             this.lblPujaMinima.Text = "Puja mínima";
-            this.lblPujaMinima.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
