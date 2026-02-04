@@ -10,27 +10,34 @@ namespace Subastas_Final.Repositories
     internal class PostorRepository
     {
         private static List<Postor> postores = new List<Postor>();
+
         private static int siguienteIdPostor = 1;
 
         public List<Postor> Postores { get => postores; }
+
         public int SiguienteIdPostor { get => siguienteIdPostor++; }
+
         public PostorRepository()
         {
             //  usamos la lista estática existente
         }
+
         public void CrearPostor(Postor postor)
         {
             postor.IdPostor = SiguienteIdPostor; // asigna un ID único
             postores.Add(postor);
         }
+
         public List<Postor> ObtenerTodosPostores()
         {
             return postores;
         }
+
         public Postor ObtenerPostorPorId(int idPostor)
         {
             return postores.FirstOrDefault(p => p.IdPostor == idPostor);
         }
+
         public void EliminarPostor(int idPostor)
         {
             var postor = ObtenerPostorPorId(idPostor);
@@ -39,6 +46,7 @@ namespace Subastas_Final.Repositories
                 postores.Remove(postor);
             }
         }
+
         public void ActualizarPostor(Postor postorActualizado)
         {
             var postor = ObtenerPostorPorId(postorActualizado.IdPostor);

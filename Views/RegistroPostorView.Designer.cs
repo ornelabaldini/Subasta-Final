@@ -42,7 +42,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(206, 26);
             this.txtNombre.TabIndex = 0;
-            this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
+            this.txtNombre.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtNombre_KeyDown);
             // 
             // txtEmail
             // 
@@ -94,11 +94,9 @@
             this.lblBienvenido.Size = new System.Drawing.Size(283, 35);
             this.lblBienvenido.TabIndex = 5;
             this.lblBienvenido.Text = "Registrate como Postor";
-            this.lblBienvenido.Click += new System.EventHandler(this.lblBienvenido_Click);
             // 
             // RegistroPostorView
             // 
-            this.AcceptButton = this.btnGuardar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -112,7 +110,6 @@
             this.Name = "RegistroPostorView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RegistroPostorView";
-            this.Load += new System.EventHandler(this.RegistroPostorView_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

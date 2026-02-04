@@ -23,17 +23,20 @@ namespace Subastas_Final.Repositories
 
         public void CrearSubasta(Subasta subasta)
         {
-            subasta.IdSubasta = SiguienteIdSubasta;
+            subasta.IdSubasta = siguienteIdSubasta++; // asigna y aumenta en la misma línea
             subastas.Add(subasta);
         }
+
         public List<Subasta> ObtenerTodasSubastas()
         {
             return subastas;
         }
+
         public Subasta ObtenerSubastaPorId(int idSubasta)
         {
             return subastas.FirstOrDefault(s => s.IdSubasta == idSubasta);
         }
+
         public void ActualizarSubasta(Subasta subastaActualizada)
         {
             var subasta = ObtenerSubastaPorId(subastaActualizada.IdSubasta);
@@ -51,6 +54,7 @@ namespace Subastas_Final.Repositories
                 subasta.Pujas = subastaActualizada.Pujas;
             }
         }
+
         public void EliminarSubasta(int idSubasta)
         {
             var subasta = ObtenerSubastaPorId(idSubasta);

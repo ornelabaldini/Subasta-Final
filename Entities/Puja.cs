@@ -7,16 +7,16 @@ namespace Subastas_Final.Entities
         private int idPuja;
         private Postor postor;
         private Subasta subasta;
-        private double monto;
+        private decimal monto;
         private DateTime fecha;
 
         public int IdPuja { get => idPuja; set => idPuja = value; }  
-        public double Monto { get => monto; set => monto = value; }
+        public decimal Monto { get => monto; set => monto = value; }
         public DateTime Fecha { get => fecha; set => fecha = value; }
         public Postor Postor { get => postor; set => postor = value; }
         public Subasta Subasta { get => subasta; set => subasta = value; }
 
-        public Puja(Postor postor, Subasta subasta, double monto, DateTime fecha)
+        public Puja(Postor postor, Subasta subasta, decimal monto, DateTime fecha)
         {
             this.postor = postor;
             this.subasta = subasta;

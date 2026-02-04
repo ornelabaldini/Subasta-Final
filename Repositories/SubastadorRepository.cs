@@ -13,26 +13,32 @@ namespace Subastas_Final.Repositories
         private static int siguienteIdSubastador = 1;
 
         public List<Subastador> Subastadores { get => subastadores; }
+
         public int SiguienteIdSubastador { get => siguienteIdSubastador++; }
+
         public SubastadorRepository()
         {
             // lista estática existente
 
         }
-        public void CrearSubastador(Entities.Subastador subastador)
+
+        public void CrearSubastador(Subastador subastador)
         {
-            subastador.IdSubastador = SiguienteIdSubastador;
+            subastador.IdSubastador = SiguienteIdSubastador; // asigna ID único
             subastadores.Add(subastador);
         }
-        public List<Entities.Subastador> ObtenerTodosSubastadores()
+
+        public List<Subastador> ObtenerTodosSubastadores()
         {
             return subastadores;
         }
-        public Entities.Subastador ObtenerSubastadorPorId(int idSubastador)
+
+        public Subastador ObtenerSubastadorPorId(int idSubastador)
         {
             return subastadores.FirstOrDefault(s => s.IdSubastador == idSubastador);
         }
-        public void ActualizarSubastador(Entities.Subastador subastadorActualizado)
+
+        public void ActualizarSubastador(Subastador subastadorActualizado)
         {
             var subastador = ObtenerSubastadorPorId(subastadorActualizado.IdSubastador);
             if (subastador != null)
@@ -41,6 +47,7 @@ namespace Subastas_Final.Repositories
                 subastador.Email = subastadorActualizado.Email;
             }
         }
+
         public void EliminarSubastador(int idSubastador)
         {
             var subastador = ObtenerSubastadorPorId(idSubastador);
@@ -49,9 +56,6 @@ namespace Subastas_Final.Repositories
                 subastadores.Remove(subastador);
             }
         }
-        // public void AsignarArticuloASubastador(Entities.Subastador subastador, Entities.Articulo articulo)
-        // {
-        //    subastador.Articulos.Add(articulo);
-        // }
+     
     }
 }

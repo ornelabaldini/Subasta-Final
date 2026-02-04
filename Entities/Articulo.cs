@@ -10,17 +10,15 @@ namespace Subastas_Final.Entities
     {
         private int idArticulo;
         private string nombre;
-        private string descripcion;
        
         public int IdArticulo { get => idArticulo; set => idArticulo = value; }
         public string Nombre { get => nombre; set => nombre = value; }
-        public string Descripcion { get => descripcion; set => descripcion = value; }
 
         public Articulo() { }
 
         public override string ToString()
         {
-            return $"Articulo ID: {idArticulo}, Nombre: {nombre}, Descripcion: {descripcion}";
+            return $"Articulo ID: {idArticulo}, Nombre: {nombre}";
         }
     }
 }

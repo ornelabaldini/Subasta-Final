@@ -16,59 +16,63 @@ namespace Subastas_Final.Views
             InitializeComponent();
             postorRepository = new PostorRepository();
 
-        }
-
-        private void RegistroPostorView_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblBienvenido_Click(object sender, EventArgs e)
-        {
-
+            // Eventos para Enter
+            txtNombre.KeyDown += txtNombre_KeyDown;
+            txtEmail.KeyDown += txtEmail_KeyDown;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validar que no estén vacíos
+            // Validar campos
             if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtEmail.Text))
             {
                 MessageBox.Show("Por favor completa todos los campos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Validar email simple
+            // Validar email
             if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 MessageBox.Show("Ingresa un email válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Crear objeto Postor
+            // Crear Postor
             Postor nuevoPostor = new Postor
             {
                 Nombre = txtNombre.Text,
                 Email = txtEmail.Text
             };
 
-            // Guardar en el repositorio
+            // Guardar en repositorio
             postorRepository.CrearPostor(nuevoPostor);
 
-            // Asignar la propiedad para que la ventana que llamó pueda acceder al nuevo Postor
+            // Pasar el Postor registrado a quien llamó
             this.Postor = nuevoPostor;
 
             MessageBox.Show("Registro exitoso!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Setear el resultado OK para indicar éxito y cerrar el formulario
+            // Cerrar formulario con OK
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
-        private void txtNombre_TextChanged(object sender, EventArgs e)
+        private void txtNombre_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                txtEmail.Focus();
+            }
         }
 
-
+        private void txtEmail_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                btnGuardar.PerformClick();
+            }
+        }
     }
 }

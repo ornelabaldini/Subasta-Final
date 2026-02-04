@@ -16,20 +16,24 @@ namespace Subastas_Final.Services
         {
             _articuloRepository = new ArticuloRepository();
         }
+
         public bool CrearArticulo(Articulo nuevoArticulo)
         {
             nuevoArticulo.IdArticulo = _articuloRepository.SiguienteIdArticulo;
             _articuloRepository.CrearArticulo(nuevoArticulo);
             return true;
         }
+
         public List<Articulo> ObtenerTodosArticulos()
         {
             return _articuloRepository.ObtenerTodosArticulos();
         }
+
         public Articulo ObtenerArticuloPorId(int idArticulo)
         {
             return _articuloRepository.ObtenerArticuloPorId(idArticulo);
         }
+
         public bool ActualizarArticulo(Articulo articuloActualizado)
         {
             var articulo = _articuloRepository.ObtenerArticuloPorId(articuloActualizado.IdArticulo);
@@ -40,6 +44,7 @@ namespace Subastas_Final.Services
             _articuloRepository.ActualizarArticulo(articuloActualizado);
             return true;
         }
+
         public bool EliminarArticulo(int idArticulo)
         {
             var articulo = _articuloRepository.ObtenerArticuloPorId(idArticulo);
@@ -50,6 +55,7 @@ namespace Subastas_Final.Services
             _articuloRepository.EliminarArticulo(idArticulo);
             return true;
         }
+
 
     }
 }

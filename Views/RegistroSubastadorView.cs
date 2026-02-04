@@ -8,13 +8,17 @@ namespace Subastas_Final.Views
 {
     public partial class RegistroSubastadorView : Form
     {
-        private SubastadorRepository subastadorRepository; 
+        private SubastadorRepository subastadorRepository;
         public Subastador Subastador { get; private set; }
 
         public RegistroSubastadorView()
         {
             InitializeComponent();
-            subastadorRepository = new SubastadorRepository(); 
+            subastadorRepository = new SubastadorRepository();
+
+            // Conectar eventos KeyDown
+            txtNombre.KeyDown += txtNombre_KeyDown;
+            txtEmail.KeyDown += txtEmail_KeyDown;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -48,20 +52,27 @@ namespace Subastas_Final.Views
 
             MessageBox.Show("Registro exitoso!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Setear el resultado OK para indicar éxito y cerrar el formulario
+            // Cerrar el formulario con resultado OK
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
-        private void RegistroSubastadorView_Load(object sender, EventArgs e)
+        private void txtNombre_KeyDown(object sender, KeyEventArgs e)
         {
-            // Icializar, o dejarlo vacío
-        }
-        private void lblEmail_Click(object sender, EventArgs e)
-        {
-            // No se hace nada al hacer click en una etiqueta
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // evita pitido
+                txtEmail.Focus();          // pasa el foco al email
+            }
         }
 
-
+        private void txtEmail_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;   // evita pitido
+                btnGuardar.PerformClick();   // simula click en Guardar
+            }
+        }
     }
 }

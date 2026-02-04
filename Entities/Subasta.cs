@@ -20,6 +20,7 @@ namespace Subastas_Final.Entities
         private List<Postor> postores;
         private Articulo articulo;
         private List<Puja> pujas;
+        private decimal pujaMinima;
 
 
         public List<Postor> Postores { get => postores; set => postores = value; }
@@ -33,6 +34,7 @@ namespace Subastas_Final.Entities
         public Subastador Subastador { get => subastador; set => subastador = value; }
         public Articulo Articulo { get => articulo; set => articulo = value; }
         public List<Puja> Pujas { get => pujas; set => pujas = value; }
+        public decimal PujaMinima { get => pujaMinima; set => pujaMinima = value; }
 
         public Subasta()
         {
@@ -45,7 +47,7 @@ namespace Subastas_Final.Entities
 
         public override string ToString()
         {
-            return $"Subasta ID: {idSubasta}, Fecha Inicio: {fechaInicio}, Fecha Fin: {fechaFin},Pujas: {Pujas.Count} Precio Base: {precioBase}, Estado: {estado}, Monto Actual: {montoActual}";
+            return $"Subasta ID: {idSubasta}, Fecha Inicio: {fechaInicio}, Fecha Fin: {fechaFin}, Pujas: {Pujas.Count}, Precio Base: {precioBase}, Estado: {estado}, Monto Actual: {montoActual}";
         }
     }
 }

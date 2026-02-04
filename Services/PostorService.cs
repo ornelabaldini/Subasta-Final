@@ -23,14 +23,17 @@ namespace Subastas_Final.Services
             _postorRepository.CrearPostor(nuevoPostor);
             return true;
         }
+
         public List<Postor> ObtenerTodosPostores()
         {
             return _postorRepository.ObtenerTodosPostores();
         }
+
         public Postor ObtenerPostorPorId(int idPostor)
         {
             return _postorRepository.ObtenerPostorPorId(idPostor);
         }
+
         public bool ActualizarPostor(Postor postorActualizado)
         {
             var postor = _postorRepository.ObtenerPostorPorId(postorActualizado.IdPostor);
@@ -41,6 +44,7 @@ namespace Subastas_Final.Services
             _postorRepository.ActualizarPostor(postorActualizado);
             return true;
         }
+
         public bool EliminarPostor(int idPostor)
         {
             var postor = _postorRepository.ObtenerPostorPorId(idPostor);
