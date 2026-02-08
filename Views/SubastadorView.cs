@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 
 
-
 namespace Subastas_Final.Views
 {
     public partial class SubastadorView : Form
@@ -19,8 +18,16 @@ namespace Subastas_Final.Views
             InitializeComponent();
             subastador = sub;
 
+            cmbFiltroSubastas.SelectedIndex = 0; // filtro por defecto
             cmbFiltroSubastas.SelectedIndexChanged += CmbFiltroSubastas_SelectedIndexChanged;
+            cmbFiltroSubastas.Items.AddRange(new string[]
+            {
+                "Subastas en curso",
+                "Últimas 10 finalizadas",
+            });
+
             cmbFiltroSubastas.SelectedIndex = 0;
+
 
             subastaController = new SubastaController();
 
@@ -38,19 +45,8 @@ namespace Subastas_Final.Views
 
         private void CargarSubastas()
         {
-            try
-            {
-                var lista = subastaController.ObtenerTodasSubastas() ?? new List<Subasta>();
-                dgvSubastas.DataSource = TransformarParaGrid(lista);
-                AjustarColumnasSubastas();
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar subastas: {ex.Message}");
-            }
+            FiltrarYCargarSubastas(); // reutiliza el método filtrado
         }
-
 
         private void CmbFiltroSubastas_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -59,32 +55,12 @@ namespace Subastas_Final.Views
 
         private void FiltrarYCargarSubastas()
         {
+            if (cmbFiltroSubastas.SelectedItem == null || subastaController == null)
+                return;
+
             try
             {
-                if (cmbFiltroSubastas.SelectedItem == null)
-                    return; // no hay nada seleccionado, salimos del método
-
-                var hoy = DateTime.Now;
-                var lista = subastaController.ObtenerTodasSubastas() ?? new List<Subasta>();
-
-                switch (cmbFiltroSubastas.SelectedItem?.ToString())
-                {
-                    case "Subastas en curso":
-                        lista = lista.Where(s => s.Estado && s.FechaInicio <= hoy && s.FechaFin >= hoy).ToList();
-                        break;
-
-                    case "Últimas 10 finalizadas":
-                        lista = lista.Where(s => !s.Estado)
-                                     .OrderByDescending(s => s.FechaFin)
-                                     .Take(10)
-                                     .ToList();
-                        break;
-
-                    default:
-                        lista = lista.ToList();
-                        break;
-                }
-
+                var lista = subastaController.FiltrarSubastas(cmbFiltroSubastas.SelectedItem.ToString());
                 dgvSubastas.DataSource = TransformarParaGrid(lista);
                 AjustarColumnasSubastas();
             }

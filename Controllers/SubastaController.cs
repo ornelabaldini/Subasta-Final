@@ -1,6 +1,8 @@
 ﻿using Subastas_Final.Entities;
 using Subastas_Final.Services;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace Subastas_Final.Controllers
@@ -48,6 +50,31 @@ namespace Subastas_Final.Controllers
         {
             return _subastaService.Pujar(idSubasta, postor);
         }
+
+        public List<Subasta> FiltrarSubastas(string tipoFiltro)
+        {
+            var todas = _subastaService.ObtenerTodasSubastas() ?? new List<Subasta>();
+            var hoy = DateTime.Now;
+
+            switch (tipoFiltro)
+            {
+                case "Subastas en curso":
+                    return todas.Where(s => s.Estado && s.FechaInicio <= hoy && s.FechaFin >= hoy).ToList();
+
+                case "Últimas 10 finalizadas":
+                    return todas.Where(s => !s.Estado)
+                                .OrderByDescending(s => s.FechaFin)
+                                .Take(10)
+                                .ToList();
+
+                case "Subastas pendientes":
+                    return todas.Where(s => s.FechaInicio > hoy).ToList();
+
+                default:
+                    return todas.ToList();
+            }
+        }
+
 
     }
 }

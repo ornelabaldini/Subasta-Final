@@ -83,9 +83,9 @@
             this.btnCrearrSubasta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCrearrSubasta.Font = new System.Drawing.Font("Javanese Text", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCrearrSubasta.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCrearrSubasta.Location = new System.Drawing.Point(1033, 514);
+            this.btnCrearrSubasta.Location = new System.Drawing.Point(1029, 514);
             this.btnCrearrSubasta.Name = "btnCrearrSubasta";
-            this.btnCrearrSubasta.Size = new System.Drawing.Size(278, 65);
+            this.btnCrearrSubasta.Size = new System.Drawing.Size(243, 65);
             this.btnCrearrSubasta.TabIndex = 4;
             this.btnCrearrSubasta.Text = "Crear Subasta";
             this.btnCrearrSubasta.UseVisualStyleBackColor = false;
@@ -202,7 +202,7 @@
             this.dtpFechaFin.Location = new System.Drawing.Point(1106, 447);
             this.dtpFechaFin.Name = "dtpFechaFin";
             this.dtpFechaFin.ShowUpDown = true;
-            this.dtpFechaFin.Size = new System.Drawing.Size(161, 26);
+            this.dtpFechaFin.Size = new System.Drawing.Size(170, 26);
             this.dtpFechaFin.TabIndex = 17;
             // 
             // btnCambiarRol

@@ -1,6 +1,7 @@
 ﻿using Subastas_Final.Controllers;
 using Subastas_Final.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -52,61 +53,40 @@ namespace Subastas_Final.Views
 
         private void FiltrarYCargarSubastas()
         {
+            if (cmbFiltroSubastas.SelectedItem == null)
+                return;
+
             try
             {
-                var hoy = DateTime.Now;
-                var lista = subastaController.ObtenerTodasSubastas().AsEnumerable();
-
-                switch (cmbFiltroSubastas.SelectedItem.ToString())
-                {
-                    case "Subastas en curso":
-                        lista = lista.Where(s => s.Estado);
-                        break;
-
-
-                    case "Últimas 10 finalizadas":
-                        lista = lista.Where(s => !s.Estado)
-                                     .OrderByDescending(s => s.FechaFin)
-                                     .Take(10);
-                        break;
-
-                    case "Subastas pendientes":
-                        lista = lista.Where(s => s.FechaInicio > hoy);
-                        break;
-                }
-
-                dgvSubastas.DataSource = lista
-                    .Select(s => new
-                    {
-                        s.IdSubasta,
-                        Articulo = s.Articulo?.Nombre,
-                        PrecioBase = s.PrecioBase,
-                        MontoActual = s.MontoActual,
-                        Estado = s.Estado ? "Activa" : "Cerrada",
-                        FechaInicio = s.FechaInicio,
-                        FechaFin = s.FechaFin,
-                        Subastador = s.Subastador?.Nombre,
-                        CantidadPostores = s.Pujas
-                            .Select(p => p.Postor.IdPostor)
-                            .Distinct()
-                            .Count(),
-
-                        Postores = string.Join(", ",
-                            s.Pujas
-                                .Select(p => p.Postor.Nombre)
-                                .Distinct()
-                        )
-
-                    })
-                    .ToList();
+                var lista = subastaController.FiltrarSubastas(cmbFiltroSubastas.SelectedItem.ToString());
+                dgvSubastas.DataSource = TransformarParaGrid(lista);
                 AjustarColumnasSubastas(dgvSubastas);
-
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al filtrar subastas: {ex.Message}");
             }
+        }
+        private List<object> TransformarParaGrid(List<Subasta> listaSubastas)
+        {
+            return listaSubastas
+                .Where(s => s != null)
+                .Select(s => new
+                {
+                    IdSubasta = s.IdSubasta,
+                    Articulo = s.Articulo?.Nombre ?? "Sin artículo",
+                    PrecioBase = s.PrecioBase,
+                    MontoActual = s.MontoActual,
+                    Estado = s.Estado ? "Activa" : "Cerrada",
+                    FechaInicio = s.FechaInicio,
+                    FechaFin = s.FechaFin,
+                    Subastador = s.Subastador?.Nombre ?? "Sin subastador",
+                    Pujas = s.Pujas?.Count ?? 0,
+                    Postores = s.Postores != null && s.Postores.Any()
+                                ? string.Join(", ", s.Postores.Select(p => p.Nombre))
+                                : "Sin postores"
+                })
+                .ToList<object>();
         }
 
         private void AjustarColumnasSubastas(DataGridView dgv)
@@ -152,67 +132,20 @@ namespace Subastas_Final.Views
 
         private void btnPujar_Click(object sender, EventArgs e)
         {
-            //  Validar selección
             if (dgvSubastas.SelectedRows.Count == 0)
             {
-                MessageBox.Show(
-                    "Seleccioná una subasta para poder pujar.",
-                    "Atención",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MessageBox.Show("Seleccioná una subasta para poder pujar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            //  Obtener la subasta seleccionada
             int idSubasta = Convert.ToInt32(dgvSubastas.SelectedRows[0].Cells["IdSubasta"].Value);
-            var subasta = subastaController.ObtenerSubastaPorId(idSubasta);
 
-            if (subasta == null)
-            {
-                MessageBox.Show(
-                    "No se encontró la subasta seleccionada.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-                return;
-            }
-
-            //  Imprimir IDs para depuración
-            Console.WriteLine($"SubastadorID: {subasta.Subastador.IdSubastador}, PostorID: {postor.IdPostor}");
-
-            //  Bloquear puja si la subasta está cerrada
-            if (!subasta.Estado)
-            {
-                MessageBox.Show(
-                    "La subasta está cerrada. No se puede pujar.",
-                    "Puja rechazada",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
-            }
-
-            //  Bloquear que el subastador puje su propia subasta
-            if (subasta.Subastador.IdSubastador == postor.IdPostor)
-            {
-                MessageBox.Show(
-                    "No podés pujar en tu propia subasta.",
-                    "Puja rechazada",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
-            }
-
-            //  Intentar realizar la puja
             bool ok = subastaController.Pujar(idSubasta, postor);
 
             if (!ok)
             {
                 MessageBox.Show(
-                    "No se pudo realizar la puja. Revisá la subasta o el monto mínimo.",
+                    "No se pudo realizar la puja. Puede ser que la subasta esté cerrada o que seas el subastador.",
                     "Puja rechazada",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -220,15 +153,9 @@ namespace Subastas_Final.Views
                 return;
             }
 
-            //  Éxito y recargar grilla
-            MessageBox.Show(
-                "Puja realizada correctamente!",
-                "Éxito",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
+            MessageBox.Show("Puja realizada correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            FiltrarYCargarSubastas(); // recarga la grilla
+            FiltrarYCargarSubastas(); // recarga grilla para actualizar montos y pujas
         }
 
         private void btnCambiarRol_Click_1(object sender, EventArgs e)

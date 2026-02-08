@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using Subastas_Final.Entities;
+using Subastas_Final.Services;
 
 namespace Subastas_Final.Controllers
 {
     internal class PostorController
     {
-        readonly Services.PostorService _postorService;
+        readonly PostorService _postorService;
         public PostorController()
         {
-            _postorService = new Services.PostorService();
+            _postorService = new PostorService();
         }
         public bool CrearPostor(Postor nuevoPostor)
         {

@@ -85,11 +85,11 @@ namespace Subastas_Final.Services
             if (subasta == null || !subasta.Estado)
                 return false;
 
-            // BLOQUEO: evitar que el subastador puje su propia subasta
+            // Evitar que el subastador puje su propia subasta
             if (subasta.Subastador.IdSubastador == postor.IdPostor)
                 return false;
 
-            // Primera puja: arranca desde el precio base si no hay pujas
+            // Arranca desde el precio base si no hay pujas
             if (subasta.Pujas.Count == 0)
                 subasta.MontoActual = subasta.PrecioBase;
 

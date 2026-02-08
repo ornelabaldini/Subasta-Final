@@ -1,5 +1,6 @@
 ﻿using Subastas_Final.Services;
 using System.Collections.Generic;
+using Subastas_Final.Entities;
 
 
 namespace Subastas_Final.Controllers
@@ -13,22 +14,22 @@ namespace Subastas_Final.Controllers
             _articuloService = new ArticuloService();
         }
 
-        public bool CrearArticulo(Entities.Articulo nuevoArticulo)
+        public bool CrearArticulo(Articulo nuevoArticulo)
         {
             return _articuloService.CrearArticulo(nuevoArticulo);
         }
 
-        public List<Entities.Articulo> ObtenerTodosArticulos()
+        public List<Articulo> ObtenerTodosArticulos()
         {
             return _articuloService.ObtenerTodosArticulos();
         }
 
-        public Entities.Articulo ObtenerArticuloPorId(int idArticulo)
+        public Articulo ObtenerArticuloPorId(int idArticulo)
         {
             return _articuloService.ObtenerArticuloPorId(idArticulo);
         }
 
-        public bool ActualizarArticulo(Entities.Articulo articuloActualizado)
+        public bool ActualizarArticulo(Articulo articuloActualizado)
         {
             return _articuloService.ActualizarArticulo(articuloActualizado);
         }
