@@ -8,7 +8,7 @@ namespace Subastas_Final.Services
 {
     internal class SubastaService
     {
-        readonly SubastaRepository _subastaRepository;
+        private readonly SubastaRepository _subastaRepository;
 
         public SubastaService()
         {
@@ -22,10 +22,10 @@ namespace Subastas_Final.Services
 
             DateTime ahora = DateTime.Now;
 
-            // Fecha inicio SIEMPRE la decide el sistema
+            // La fecha de inicio siempre la define el sistema
             nuevaSubasta.FechaInicio = ahora;
 
-            // Validaciones
+            // Validaciones de fecha
             if (nuevaSubasta.FechaFin <= ahora)
                 return false;
 
@@ -36,6 +36,7 @@ namespace Subastas_Final.Services
             nuevaSubasta.Estado = true;
             nuevaSubasta.MontoActual = nuevaSubasta.PrecioBase;
             nuevaSubasta.Pujas = new List<Puja>();
+            nuevaSubasta.Postores = new List<Postor>();
 
             _subastaRepository.CrearSubasta(nuevaSubasta);
             return true;
@@ -55,16 +56,18 @@ namespace Subastas_Final.Services
         {
             var subasta = _subastaRepository.ObtenerSubastaPorId(idSubasta);
             if (subasta == null)
-             return false;
+                return false;
 
             _subastaRepository.EliminarSubasta(idSubasta);
-             return true;
+            return true;
         }
 
         public bool ActualizarSubasta(Subasta subastaActualizada)
         {
             var subasta = _subastaRepository.ObtenerSubastaPorId(subastaActualizada.IdSubasta);
-            if (subasta == null) return false;
+            if (subasta == null)
+                return false;
+
             _subastaRepository.ActualizarSubasta(subastaActualizada);
             return true;
         }
@@ -72,44 +75,52 @@ namespace Subastas_Final.Services
         public bool ActualizarPostorGanador(int idSubasta, int idGanador)
         {
             var subasta = _subastaRepository.ObtenerSubastaPorId(idSubasta);
-            if (subasta == null) return false;
+            if (subasta == null)
+                return false;
+
             subasta.IdGanador = idGanador;
             _subastaRepository.ActualizarSubasta(subasta);
             return true;
         }
 
-        public bool Pujar(int idSubasta, Postor postor)
+        public bool Pujar(int idSubasta, Postor postor, decimal montoIngresado)
         {
-            // Obtener la subasta
+            if (postor == null)
+                return false;
+
             var subasta = ObtenerSubastaPorId(idSubasta);
             if (subasta == null || !subasta.Estado)
                 return false;
 
-            // Evitar que el subastador puje su propia subasta
+            // Cerrar subasta si ya venció
+            if (DateTime.Now >= subasta.FechaFin)
+            {
+                subasta.Estado = false;
+                _subastaRepository.ActualizarSubasta(subasta);
+                return false;
+            }
+
+            // El subastador no puede pujar
             if (subasta.Subastador.IdSubastador == postor.IdPostor)
                 return false;
 
-            // Arranca desde el precio base si no hay pujas
-            if (subasta.Pujas.Count == 0)
-                subasta.MontoActual = subasta.PrecioBase;
+            decimal montoMinimo = subasta.MontoActual + subasta.PujaMinima;
 
-            // La puja siempre es la puja mínima
-            decimal monto = subasta.PujaMinima;
+            if (montoIngresado < montoMinimo)
+                return false;
 
-            // Crear y agregar la nueva puja
-            Puja nuevaPuja = new Puja(postor, subasta, monto, DateTime.Now);
+            var nuevaPuja = new Puja(postor, subasta, montoIngresado, DateTime.Now);
             subasta.Pujas.Add(nuevaPuja);
 
-            // Si el postor no estaba en la subasta, lo agregamos
             if (!subasta.Postores.Any(p => p.IdPostor == postor.IdPostor))
                 subasta.Postores.Add(postor);
 
-            // Actualizar monto actual
-            subasta.MontoActual += monto;
+            subasta.MontoActual = montoIngresado;
+
+            // persistir los cambios
+            _subastaRepository.ActualizarSubasta(subasta);
 
             return true;
         }
-
-
     }
 }

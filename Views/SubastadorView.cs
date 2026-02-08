@@ -148,6 +148,7 @@ namespace Subastas_Final.Views
 
         private void AjustarColumnasSubastas()
         {
+
             if (dgvSubastas.Columns.Contains("IdSubasta"))
                 dgvSubastas.Columns["IdSubasta"].FillWeight = 50;
 
@@ -168,6 +169,13 @@ namespace Subastas_Final.Views
                 dgvSubastas.Columns["FechaFin"].FillWeight = 140;
                 dgvSubastas.Columns["FechaFin"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
             }
+
+            if (dgvSubastas.Columns.Contains("PujaMinima"))
+            {
+                dgvSubastas.Columns["PujaMinima"].HeaderText = "Puja mínima";
+                dgvSubastas.Columns["PujaMinima"].FillWeight = 70;
+            }
+
         }
 
         private List<object> TransformarParaGrid(List<Subasta> listaSubastas)
@@ -180,6 +188,7 @@ namespace Subastas_Final.Views
                     Articulo = s.Articulo?.Nombre ?? "Sin artículo",
                     PrecioBase = s.PrecioBase,
                     MontoActual = s.MontoActual,
+                    PujaMinima = s.PujaMinima,
                     Estado = s.Estado ? "Activa" : "Cerrada",
                     FechaInicio = s.FechaInicio,
                     FechaFin = s.FechaFin,

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-
 namespace Subastas_Final.Views
 {
     public partial class PostorView : Form
@@ -16,10 +15,10 @@ namespace Subastas_Final.Views
         public PostorView(Postor post)
         {
             InitializeComponent();
-            postor = post;
 
+            postor = post;
             subastaController = new SubastaController();
-     
+
             lblBienvenido.Text = $"Bienvenid@ {postor.Nombre}";
             lblId.Text = $"ID: {postor.IdPostor}";
             lblEmail.Text = $"Email: {postor.Email}";
@@ -29,21 +28,23 @@ namespace Subastas_Final.Views
             dgvSubastas.MultiSelect = false;
             dgvSubastas.RowHeadersVisible = false;
 
-            cmbFiltroSubastas.SelectedIndex = 0; // Por defecto "Subastas en curso"
+            cmbFiltroSubastas.SelectedIndex = 0;
             cmbFiltroSubastas.SelectedIndexChanged += cmbFiltroSubastas_SelectedIndexChanged;
 
-            // Cargar subastas desde el inicio usando filtro
+            dgvSubastas.SelectionChanged += dgvSubastas_SelectionChanged;
+
+            nudMonto.DecimalPlaces = 0;
+            nudMonto.Minimum = 0;
+            nudMonto.Maximum = 1000000000; // o decimal.MaxValue
+            nudMonto.Increment = 1;
+
+
             FiltrarYCargarSubastas();
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void dgvSubastas_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // después para seleccionar una subasta
         }
 
         private void cmbFiltroSubastas_SelectedIndexChanged(object sender, EventArgs e)
@@ -56,17 +57,19 @@ namespace Subastas_Final.Views
             if (cmbFiltroSubastas.SelectedItem == null)
                 return;
 
-            try
-            {
-                var lista = subastaController.FiltrarSubastas(cmbFiltroSubastas.SelectedItem.ToString());
-                dgvSubastas.DataSource = TransformarParaGrid(lista);
-                AjustarColumnasSubastas(dgvSubastas);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al filtrar subastas: {ex.Message}");
-            }
+            var lista = subastaController.FiltrarSubastas(
+                cmbFiltroSubastas.SelectedItem.ToString()
+            );
+
+            dgvSubastas.DataSource = null;
+            dgvSubastas.DataSource = TransformarParaGrid(lista);
+
+            AjustarColumnasSubastas(dgvSubastas);
+
+            // fuerza actualización del mínimo al refrescar
+            dgvSubastas_SelectionChanged(null, null);
         }
+
         private List<object> TransformarParaGrid(List<Subasta> listaSubastas)
         {
             return listaSubastas
@@ -76,15 +79,13 @@ namespace Subastas_Final.Views
                     IdSubasta = s.IdSubasta,
                     Articulo = s.Articulo?.Nombre ?? "Sin artículo",
                     PrecioBase = s.PrecioBase,
+                    PujaMinima = s.PujaMinima,
                     MontoActual = s.MontoActual,
                     Estado = s.Estado ? "Activa" : "Cerrada",
                     FechaInicio = s.FechaInicio,
                     FechaFin = s.FechaFin,
                     Subastador = s.Subastador?.Nombre ?? "Sin subastador",
-                    Pujas = s.Pujas?.Count ?? 0,
-                    Postores = s.Postores != null && s.Postores.Any()
-                                ? string.Join(", ", s.Postores.Select(p => p.Nombre))
-                                : "Sin postores"
+                    Pujas = s.Pujas?.Count ?? 0
                 })
                 .ToList<object>();
         }
@@ -92,73 +93,76 @@ namespace Subastas_Final.Views
         private void AjustarColumnasSubastas(DataGridView dgv)
         {
             if (dgv.Columns.Contains("IdSubasta"))
-                dgv.Columns["IdSubasta"].FillWeight = 50;
+                dgv.Columns["IdSubasta"].FillWeight = 40;
 
-            if (dgv.Columns.Contains("Estado"))
-                dgv.Columns["Estado"].FillWeight = 70;
+            if (dgv.Columns.Contains("PujaMinima"))
+                dgv.Columns["PujaMinima"].FillWeight = 60;
+
+            if (dgv.Columns.Contains("MontoActual"))
+                dgv.Columns["MontoActual"].FillWeight = 70;
 
             if (dgv.Columns.Contains("Pujas"))
-                dgv.Columns["Pujas"].FillWeight = 60;
+                dgv.Columns["Pujas"].FillWeight = 50;
 
             if (dgv.Columns.Contains("FechaInicio"))
-            {
-                dgv.Columns["FechaInicio"].FillWeight = 100;
                 dgv.Columns["FechaInicio"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
-            }
 
             if (dgv.Columns.Contains("FechaFin"))
-            {
-                dgv.Columns["FechaFin"].FillWeight = 140;
                 dgv.Columns["FechaFin"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
-            }
-
-            if (dgv.Columns.Contains("Postores"))
-            {
-                dgv.Columns["Postores"].FillWeight = 200;
-            }
-
-            if (dgv.Columns.Contains("CantidadPostores"))
-            {
-                dgv.Columns["CantidadPostores"].HeaderText = "Postores";
-                dgv.Columns["CantidadPostores"].FillWeight = 60;
-            }
-
         }
 
-        private void PostorView_Load(object sender, EventArgs e)
+        private void dgvSubastas_SelectionChanged(object sender, EventArgs e)
         {
+            if (dgvSubastas.SelectedRows.Count == 0)
+                return;
 
+            int idSubasta = Convert.ToInt32(
+                dgvSubastas.SelectedRows[0].Cells["IdSubasta"].Value
+            );
+
+            var subasta = subastaController.ObtenerSubastaPorId(idSubasta);
+            if (subasta == null) return;
+
+            decimal minimo = subasta.MontoActual + subasta.PujaMinima;
+
+            nudMonto.Minimum = minimo;
+
+            
+            if (minimo <= nudMonto.Maximum)
+                nudMonto.Value = minimo;
+            else
+                nudMonto.Value = nudMonto.Maximum;
         }
+
 
         private void btnPujar_Click(object sender, EventArgs e)
         {
             if (dgvSubastas.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccioná una subasta para poder pujar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccioná una subasta.", "Atención");
                 return;
             }
 
-            int idSubasta = Convert.ToInt32(dgvSubastas.SelectedRows[0].Cells["IdSubasta"].Value);
+            int idSubasta = Convert.ToInt32(
+                dgvSubastas.SelectedRows[0].Cells["IdSubasta"].Value
+            );
 
-            bool ok = subastaController.Pujar(idSubasta, postor);
+            decimal montoIngresado = nudMonto.Value;
+
+            bool ok = subastaController.Pujar(idSubasta, postor, montoIngresado);
 
             if (!ok)
             {
-                MessageBox.Show(
-                    "No se pudo realizar la puja. Puede ser que la subasta esté cerrada o que seas el subastador.",
-                    "Puja rechazada",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MessageBox.Show("La puja no cumple el mínimo.", "Error");
                 return;
             }
 
-            MessageBox.Show("Puja realizada correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Puja realizada correctamente");
 
-            FiltrarYCargarSubastas(); // recarga grilla para actualizar montos y pujas
+            FiltrarYCargarSubastas();
         }
 
-        private void btnCambiarRol_Click_1(object sender, EventArgs e)
+        private void btnCambiarRol_Click(object sender, EventArgs e)
         {
             var subastador = new Subastador
             {

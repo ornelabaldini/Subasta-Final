@@ -25,7 +25,9 @@
             this.cmbFiltroSubastas = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnCambiarRol = new System.Windows.Forms.Button();
+            this.nudMonto = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubastas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMonto)).BeginInit();
             this.SuspendLayout();
             // 
             // lblBienvenido
@@ -66,9 +68,8 @@
             this.dgvSubastas.Name = "dgvSubastas";
             this.dgvSubastas.RowHeadersWidth = 62;
             this.dgvSubastas.RowTemplate.Height = 28;
-            this.dgvSubastas.Size = new System.Drawing.Size(939, 378);
+            this.dgvSubastas.Size = new System.Drawing.Size(1053, 378);
             this.dgvSubastas.TabIndex = 3;
-            this.dgvSubastas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSubastas_CellContentClick);
             // 
             // btnPujar
             // 
@@ -135,13 +136,22 @@
             this.btnCambiarRol.BackColor = System.Drawing.Color.Black;
             this.btnCambiarRol.Font = new System.Drawing.Font("Impact", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCambiarRol.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnCambiarRol.Location = new System.Drawing.Point(978, 391);
+            this.btnCambiarRol.Location = new System.Drawing.Point(1080, 384);
             this.btnCambiarRol.Name = "btnCambiarRol";
-            this.btnCambiarRol.Size = new System.Drawing.Size(208, 95);
+            this.btnCambiarRol.Size = new System.Drawing.Size(163, 95);
             this.btnCambiarRol.TabIndex = 12;
             this.btnCambiarRol.Text = "Cambiar a Subastador";
             this.btnCambiarRol.UseVisualStyleBackColor = false;
-            this.btnCambiarRol.Click += new System.EventHandler(this.btnCambiarRol_Click_1);
+            this.btnCambiarRol.Click += new System.EventHandler(this.btnCambiarRol_Click);
+            // 
+            // nudMonto
+            // 
+            this.nudMonto.DecimalPlaces = 2;
+            this.nudMonto.Location = new System.Drawing.Point(883, 147);
+            this.nudMonto.Name = "nudMonto";
+            this.nudMonto.Size = new System.Drawing.Size(120, 26);
+            this.nudMonto.TabIndex = 13;
+            this.nudMonto.ThousandsSeparator = true;
             // 
             // PostorView
             // 
@@ -149,6 +159,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1450, 622);
+            this.Controls.Add(this.nudMonto);
             this.Controls.Add(this.btnCambiarRol);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbFiltroSubastas);
@@ -162,8 +173,8 @@
             this.Name = "PostorView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Postor";
-            this.Load += new System.EventHandler(this.PostorView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubastas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMonto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,5 +192,6 @@
         private System.Windows.Forms.ComboBox cmbFiltroSubastas;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnCambiarRol;
+        private System.Windows.Forms.NumericUpDown nudMonto;
     }
 }
