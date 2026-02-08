@@ -80,37 +80,36 @@ namespace Subastas_Final.Services
 
         public bool Pujar(int idSubasta, Postor postor)
         {
+            // Obtener la subasta
             var subasta = ObtenerSubastaPorId(idSubasta);
-            if (subasta == null)
+            if (subasta == null || !subasta.Estado)
                 return false;
 
-            if (!subasta.Estado)
+            // BLOQUEO: evitar que el subastador puje su propia subasta
+            if (subasta.Subastador.IdSubastador == postor.IdPostor)
                 return false;
 
-            // Primera puja: arranca desde el precio base
+            // Primera puja: arranca desde el precio base si no hay pujas
             if (subasta.Pujas.Count == 0)
-            {
                 subasta.MontoActual = subasta.PrecioBase;
-            }
 
             // La puja siempre es la puja mínima
             decimal monto = subasta.PujaMinima;
 
+            // Crear y agregar la nueva puja
             Puja nuevaPuja = new Puja(postor, subasta, monto, DateTime.Now);
             subasta.Pujas.Add(nuevaPuja);
 
-            
             // Si el postor no estaba en la subasta, lo agregamos
             if (!subasta.Postores.Any(p => p.IdPostor == postor.IdPostor))
-            {
                 subasta.Postores.Add(postor);
-            }
 
             // Actualizar monto actual
             subasta.MontoActual += monto;
 
             return true;
         }
+
 
     }
 }

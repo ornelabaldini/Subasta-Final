@@ -1,9 +1,7 @@
 ﻿using Subastas_Final.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Subastas_Final.Repositories
 {
@@ -23,7 +21,7 @@ namespace Subastas_Final.Repositories
 
         public void CrearSubasta(Subasta subasta)
         {
-            subasta.IdSubasta = siguienteIdSubasta++; // asigna y aumenta en la misma línea
+            subasta.IdSubasta = siguienteIdSubasta++; 
             subastas.Add(subasta);
         }
 

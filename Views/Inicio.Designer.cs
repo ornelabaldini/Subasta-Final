@@ -46,7 +46,7 @@
             this.labelTitulo.TabIndex = 2;
             this.labelTitulo.Text = "Sistema de Subastas";
             this.labelTitulo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.labelTitulo.Click += new System.EventHandler(this.label1_Click);
+         
             // 
             // labelPregunta
             // 
@@ -57,7 +57,7 @@
             this.labelPregunta.Size = new System.Drawing.Size(278, 54);
             this.labelPregunta.TabIndex = 3;
             this.labelPregunta.Text = "¿Cómo desea ingresar?";
-            this.labelPregunta.Click += new System.EventHandler(this.label1_Click_1);
+         
             // 
             // grpRol
             // 

@@ -1,20 +1,21 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using Subastas_Final.Controllers;
 using Subastas_Final.Entities;
-using System.Text.RegularExpressions;
 using Subastas_Final.Repositories;
+using System;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Subastas_Final.Views
 {
     public partial class RegistroPostorView : Form
     {
-        private PostorRepository postorRepository;
+        private PostorController postorController;
         public Postor Postor { get; private set; }
 
         public RegistroPostorView()
         {
             InitializeComponent();
-            postorRepository = new PostorRepository();
+            postorController = new PostorController();
 
             // Eventos para Enter
             txtNombre.KeyDown += txtNombre_KeyDown;
@@ -45,7 +46,7 @@ namespace Subastas_Final.Views
             };
 
             // Guardar en repositorio
-            postorRepository.CrearPostor(nuevoPostor);
+            postorController.CrearPostor(nuevoPostor);
 
             // Pasar el Postor registrado a quien llamó
             this.Postor = nuevoPostor;

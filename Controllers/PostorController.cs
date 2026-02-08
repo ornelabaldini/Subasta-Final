@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Subastas_Final.Entities;
 
 namespace Subastas_Final.Controllers
@@ -33,6 +29,11 @@ namespace Subastas_Final.Controllers
         public bool EliminarPostor(int idPostor)
         {
             return _postorService.EliminarPostor(idPostor);
+        }
+
+        public Postor ObtenerOCrear(Postor datos)
+        {
+            return _postorService.ObtenerOCrear(datos);
         }
     }
 }

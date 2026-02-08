@@ -1,12 +1,7 @@
 ﻿using Subastas_Final.Entities;
 using Subastas_Final.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Subastas_Final.Views;
-using Subastas_Final.Repositories;
+
 
 namespace Subastas_Final.Controllers
 {

@@ -132,12 +132,15 @@
             // 
             // btnCambiarRol
             // 
-            this.btnCambiarRol.Location = new System.Drawing.Point(999, 392);
+            this.btnCambiarRol.BackColor = System.Drawing.Color.Black;
+            this.btnCambiarRol.Font = new System.Drawing.Font("Impact", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCambiarRol.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnCambiarRol.Location = new System.Drawing.Point(978, 391);
             this.btnCambiarRol.Name = "btnCambiarRol";
-            this.btnCambiarRol.Size = new System.Drawing.Size(194, 29);
+            this.btnCambiarRol.Size = new System.Drawing.Size(208, 95);
             this.btnCambiarRol.TabIndex = 12;
             this.btnCambiarRol.Text = "Cambiar a Subastador";
-            this.btnCambiarRol.UseVisualStyleBackColor = true;
+            this.btnCambiarRol.UseVisualStyleBackColor = false;
             this.btnCambiarRol.Click += new System.EventHandler(this.btnCambiarRol_Click_1);
             // 
             // PostorView

@@ -1,9 +1,7 @@
 ﻿using Subastas_Final.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Subastas_Final.Repositories
 {
@@ -24,7 +22,7 @@ namespace Subastas_Final.Repositories
 
         public void CrearSubastador(Subastador subastador)
         {
-            subastador.IdSubastador = SiguienteIdSubastador; // asigna ID único
+            subastador.IdSubastador = SiguienteIdSubastador; 
             subastadores.Add(subastador);
         }
 

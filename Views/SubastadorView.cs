@@ -1,9 +1,10 @@
 ﻿using Subastas_Final.Entities;
-using Subastas_Final.Services;
+using Subastas_Final.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+
 
 
 namespace Subastas_Final.Views
@@ -11,8 +12,7 @@ namespace Subastas_Final.Views
     public partial class SubastadorView : Form
     {
         private Subastador subastador;
-        private SubastadorService subService;
-        private SubastaService subastaService;
+        private SubastaController subastaController;
 
         public SubastadorView(Subastador sub)
         {
@@ -22,8 +22,7 @@ namespace Subastas_Final.Views
             cmbFiltroSubastas.SelectedIndexChanged += CmbFiltroSubastas_SelectedIndexChanged;
             cmbFiltroSubastas.SelectedIndex = 0;
 
-            subService = new SubastadorService();
-            subastaService = new SubastaService();
+            subastaController = new SubastaController();
 
             lblBienvenido.Text = $"Bienvenid@ {subastador.Nombre}";
             lblId.Text = $"ID: {subastador.IdSubastador}";
@@ -41,7 +40,7 @@ namespace Subastas_Final.Views
         {
             try
             {
-                var lista = subastaService.ObtenerTodasSubastas() ?? new List<Subasta>();
+                var lista = subastaController.ObtenerTodasSubastas() ?? new List<Subasta>();
                 dgvSubastas.DataSource = TransformarParaGrid(lista);
                 AjustarColumnasSubastas();
 
@@ -51,6 +50,7 @@ namespace Subastas_Final.Views
                 MessageBox.Show($"Error al cargar subastas: {ex.Message}");
             }
         }
+
 
         private void CmbFiltroSubastas_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -65,7 +65,7 @@ namespace Subastas_Final.Views
                     return; // no hay nada seleccionado, salimos del método
 
                 var hoy = DateTime.Now;
-                var lista = subastaService.ObtenerTodasSubastas() ?? new List<Subasta>();
+                var lista = subastaController.ObtenerTodasSubastas() ?? new List<Subasta>();
 
                 switch (cmbFiltroSubastas.SelectedItem?.ToString())
                 {
@@ -129,7 +129,7 @@ namespace Subastas_Final.Views
                     Subastador = subastador
                 };
 
-                bool creada = subastaService.CrearSubasta(subasta);
+                bool creada = subastaController.CrearSubasta(subasta);
 
                 if (!creada)
                 {
@@ -218,9 +218,9 @@ namespace Subastas_Final.Views
 
         private void btnCambiarRol_Click(object sender, EventArgs e)
         {
-            var postorService = new PostorService();
+            var postorController = new PostorController();
 
-            Postor postor = postorService.ObtenerOCrear(
+            Postor postor = postorController.ObtenerOCrear(
                 new Postor
                 {
                     IdPostor = subastador.IdSubastador,

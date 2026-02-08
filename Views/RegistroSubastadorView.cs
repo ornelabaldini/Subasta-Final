@@ -1,20 +1,21 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using Subastas_Final.Controllers;
 using Subastas_Final.Entities;
-using System.Text.RegularExpressions;
 using Subastas_Final.Repositories;
+using System;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Subastas_Final.Views
 {
     public partial class RegistroSubastadorView : Form
     {
-        private SubastadorRepository subastadorRepository;
+        private SubastadorController subastadorController;
         public Subastador Subastador { get; private set; }
 
         public RegistroSubastadorView()
         {
             InitializeComponent();
-            subastadorRepository = new SubastadorRepository();
+            subastadorController = new SubastadorController();
 
             // Conectar eventos KeyDown
             txtNombre.KeyDown += txtNombre_KeyDown;
@@ -45,7 +46,7 @@ namespace Subastas_Final.Views
             };
 
             // Guardar en el repositorio
-            subastadorRepository.CrearSubastador(nuevoSubastador);
+            subastadorController.CrearSubastador(nuevoSubastador);
 
             // Asignar la propiedad para que la ventana que llamó pueda acceder al nuevo Subastador
             this.Subastador = nuevoSubastador;

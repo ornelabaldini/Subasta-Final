@@ -1,10 +1,7 @@
 ﻿using Subastas_Final.Entities;
 using Subastas_Final.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Subastas_Final.Controllers
 {
@@ -40,6 +37,16 @@ namespace Subastas_Final.Controllers
         public bool EliminarSubasta(int idSubasta)
         {
             return _subastaService.EliminarSubasta(idSubasta);
+        }
+
+        public bool ActualizarPostorGanador(int idSubasta, int idGanador)
+        {
+            return _subastaService.ActualizarPostorGanador(idSubasta, idGanador);
+        }
+
+        public bool Pujar(int idSubasta, Postor postor)
+        {
+            return _subastaService.Pujar(idSubasta, postor);
         }
 
     }

@@ -1,6 +1,5 @@
-﻿using Subastas_Final.Entities;
-using Subastas_Final.Repositories;
-using Subastas_Final.Services;
+﻿using Subastas_Final.Controllers;
+using Subastas_Final.Entities;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,15 +10,14 @@ namespace Subastas_Final.Views
     public partial class PostorView : Form
     {
         private Postor postor;
-        private SubastaService subastaService;
+        private SubastaController subastaController;
 
         public PostorView(Postor post)
         {
             InitializeComponent();
             postor = post;
 
-            // Inicializar repositorios
-            subastaService = new SubastaService();
+            subastaController = new SubastaController();
      
             lblBienvenido.Text = $"Bienvenid@ {postor.Nombre}";
             lblId.Text = $"ID: {postor.IdPostor}";
@@ -57,7 +55,7 @@ namespace Subastas_Final.Views
             try
             {
                 var hoy = DateTime.Now;
-                var lista = subastaService.ObtenerTodasSubastas().AsEnumerable();
+                var lista = subastaController.ObtenerTodasSubastas().AsEnumerable();
 
                 switch (cmbFiltroSubastas.SelectedItem.ToString())
                 {
@@ -145,7 +143,6 @@ namespace Subastas_Final.Views
                 dgv.Columns["CantidadPostores"].FillWeight = 60;
             }
 
-
         }
 
         private void PostorView_Load(object sender, EventArgs e)
@@ -167,18 +164,29 @@ namespace Subastas_Final.Views
                 return;
             }
 
-            //  Obtener ID de la subasta
-            int idSubasta = Convert.ToInt32(
-                dgvSubastas.SelectedRows[0].Cells["IdSubasta"].Value
-            );
+            //  Obtener la subasta seleccionada
+            int idSubasta = Convert.ToInt32(dgvSubastas.SelectedRows[0].Cells["IdSubasta"].Value);
+            var subasta = subastaController.ObtenerSubastaPorId(idSubasta);
 
-            //  Llamar al service
-            bool ok = subastaService.Pujar(idSubasta, postor);
-
-            if (!ok)
+            if (subasta == null)
             {
                 MessageBox.Show(
-                    "No se pudo realizar la puja. La subasta puede estar cerrada.",
+                    "No se encontró la subasta seleccionada.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
+
+            //  Imprimir IDs para depuración
+            Console.WriteLine($"SubastadorID: {subasta.Subastador.IdSubastador}, PostorID: {postor.IdPostor}");
+
+            //  Bloquear puja si la subasta está cerrada
+            if (!subasta.Estado)
+            {
+                MessageBox.Show(
+                    "La subasta está cerrada. No se puede pujar.",
                     "Puja rechazada",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -186,15 +194,41 @@ namespace Subastas_Final.Views
                 return;
             }
 
+            //  Bloquear que el subastador puje su propia subasta
+            if (subasta.Subastador.IdSubastador == postor.IdPostor)
+            {
+                MessageBox.Show(
+                    "No podés pujar en tu propia subasta.",
+                    "Puja rechazada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            //  Intentar realizar la puja
+            bool ok = subastaController.Pujar(idSubasta, postor);
+
+            if (!ok)
+            {
+                MessageBox.Show(
+                    "No se pudo realizar la puja. Revisá la subasta o el monto mínimo.",
+                    "Puja rechazada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            //  Éxito y recargar grilla
             MessageBox.Show(
-                "Puja realizada correctamente.",
+                "Puja realizada correctamente!",
                 "Éxito",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
 
-            // Refrescar grilla
-            FiltrarYCargarSubastas();
+            FiltrarYCargarSubastas(); // recarga la grilla
         }
 
         private void btnCambiarRol_Click_1(object sender, EventArgs e)

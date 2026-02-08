@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Subastas_Final.Entities;
 
+// Para base de datos
 namespace Subastas_Final.Interfaces
 {
     internal interface ISubastadorRepository
