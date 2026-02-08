@@ -31,6 +31,7 @@
             this.txtArticulo = new System.Windows.Forms.TextBox();
             this.txtPuja = new System.Windows.Forms.TextBox();
             this.dtpFechaFin = new System.Windows.Forms.DateTimePicker();
+            this.btnCambiarRol = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubastas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,9 +83,9 @@
             this.btnCrearrSubasta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCrearrSubasta.Font = new System.Drawing.Font("Javanese Text", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCrearrSubasta.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCrearrSubasta.Location = new System.Drawing.Point(1050, 514);
+            this.btnCrearrSubasta.Location = new System.Drawing.Point(1033, 514);
             this.btnCrearrSubasta.Name = "btnCrearrSubasta";
-            this.btnCrearrSubasta.Size = new System.Drawing.Size(226, 65);
+            this.btnCrearrSubasta.Size = new System.Drawing.Size(278, 65);
             this.btnCrearrSubasta.TabIndex = 4;
             this.btnCrearrSubasta.Text = "Crear Subasta";
             this.btnCrearrSubasta.UseVisualStyleBackColor = false;
@@ -198,18 +199,29 @@
             // 
             this.dtpFechaFin.CustomFormat = "dd/MM/yyyy HH:mm";
             this.dtpFechaFin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFechaFin.Location = new System.Drawing.Point(1115, 447);
+            this.dtpFechaFin.Location = new System.Drawing.Point(1106, 447);
             this.dtpFechaFin.Name = "dtpFechaFin";
             this.dtpFechaFin.ShowUpDown = true;
             this.dtpFechaFin.Size = new System.Drawing.Size(161, 26);
             this.dtpFechaFin.TabIndex = 17;
+            // 
+            // btnCambiarRol
+            // 
+            this.btnCambiarRol.Location = new System.Drawing.Point(1117, 76);
+            this.btnCambiarRol.Name = "btnCambiarRol";
+            this.btnCambiarRol.Size = new System.Drawing.Size(194, 29);
+            this.btnCambiarRol.TabIndex = 18;
+            this.btnCambiarRol.Text = "Cambiar a Postor";
+            this.btnCambiarRol.UseVisualStyleBackColor = true;
+            this.btnCambiarRol.Click += new System.EventHandler(this.btnCambiarRol_Click);
             // 
             // SubastadorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1300, 663);
+            this.ClientSize = new System.Drawing.Size(1323, 663);
+            this.Controls.Add(this.btnCambiarRol);
             this.Controls.Add(this.dtpFechaFin);
             this.Controls.Add(this.txtPuja);
             this.Controls.Add(this.txtArticulo);
@@ -254,5 +266,6 @@
         private System.Windows.Forms.TextBox txtArticulo;
         private System.Windows.Forms.TextBox txtPuja;
         private System.Windows.Forms.DateTimePicker dtpFechaFin;
+        private System.Windows.Forms.Button btnCambiarRol;
     }
 }

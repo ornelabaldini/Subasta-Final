@@ -1,4 +1,5 @@
 ﻿using Subastas_Final.Entities;
+using Subastas_Final.Interfaces;
 using Subastas_Final.Repositories;
 using System;
 using System.Collections.Generic;
@@ -55,5 +56,17 @@ namespace Subastas_Final.Services
             _postorRepository.EliminarPostor(idPostor);
             return true;
         }
+
+        public Postor ObtenerOCrear(Postor datos)
+        {
+            var existente = _postorRepository.ObtenerPostorPorId(datos.IdPostor);
+
+            if (existente != null)
+                return existente;
+
+            _postorRepository.CrearPostor(datos);
+            return datos;
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Subastas_Final.Entities;
 
 namespace Subastas_Final.Controllers
 {
@@ -13,19 +14,19 @@ namespace Subastas_Final.Controllers
         {
             _postorService = new Services.PostorService();
         }
-        public bool CrearPostor(Entities.Postor nuevoPostor)
+        public bool CrearPostor(Postor nuevoPostor)
         {
             return _postorService.CrearPostor(nuevoPostor);
         }
-        public List<Entities.Postor> ObtenerTodosPostores()
+        public List<Postor> ObtenerTodosPostores()
         {
             return _postorService.ObtenerTodosPostores();
         }
-        public Entities.Postor ObtenerPostorPorId(int idPostor)
+        public Postor ObtenerPostorPorId(int idPostor)
         {
             return _postorService.ObtenerPostorPorId(idPostor);
         }
-        public bool ActualizarPostor(Entities.Postor postorActualizado)
+        public bool ActualizarPostor(Postor postorActualizado)
         {
             return _postorService.ActualizarPostor(postorActualizado);
         }

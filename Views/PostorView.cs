@@ -5,13 +5,13 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
+
 namespace Subastas_Final.Views
 {
     public partial class PostorView : Form
     {
         private Postor postor;
-        private PostorRepository postorRepo;
-        private SubastaRepository subastaRepo;
+        private SubastaService subastaService;
 
         public PostorView(Postor post)
         {
@@ -19,21 +19,17 @@ namespace Subastas_Final.Views
             postor = post;
 
             // Inicializar repositorios
-            postorRepo = new PostorRepository();
-            subastaRepo = new SubastaRepository();
-
-            // Mostrar info del postor en Labels
+            subastaService = new SubastaService();
+     
             lblBienvenido.Text = $"Bienvenid@ {postor.Nombre}";
             lblId.Text = $"ID: {postor.IdPostor}";
             lblEmail.Text = $"Email: {postor.Email}";
 
-            // Configuración del DataGridView
             dgvSubastas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSubastas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSubastas.MultiSelect = false;
             dgvSubastas.RowHeadersVisible = false;
 
-            // Configurar ComboBox
             cmbFiltroSubastas.SelectedIndex = 0; // Por defecto "Subastas en curso"
             cmbFiltroSubastas.SelectedIndexChanged += cmbFiltroSubastas_SelectedIndexChanged;
 
@@ -48,7 +44,7 @@ namespace Subastas_Final.Views
 
         private void dgvSubastas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Podemos usar esto después para seleccionar una subasta
+            // después para seleccionar una subasta
         }
 
         private void cmbFiltroSubastas_SelectedIndexChanged(object sender, EventArgs e)
@@ -61,13 +57,14 @@ namespace Subastas_Final.Views
             try
             {
                 var hoy = DateTime.Now;
-                var lista = subastaRepo.ObtenerTodasSubastas().AsEnumerable();
+                var lista = subastaService.ObtenerTodasSubastas().AsEnumerable();
 
                 switch (cmbFiltroSubastas.SelectedItem.ToString())
                 {
                     case "Subastas en curso":
-                        lista = lista.Where(s => s.Estado && s.FechaInicio <= hoy && s.FechaFin >= hoy);
+                        lista = lista.Where(s => s.Estado);
                         break;
+
 
                     case "Últimas 10 finalizadas":
                         lista = lista.Where(s => !s.Estado)
@@ -91,15 +88,64 @@ namespace Subastas_Final.Views
                         FechaInicio = s.FechaInicio,
                         FechaFin = s.FechaFin,
                         Subastador = s.Subastador?.Nombre,
-                        Pujas = s.Pujas.Count,
-                        Postores = string.Join(", ", s.Postores.Select(p => p.Nombre))
+                        CantidadPostores = s.Pujas
+                            .Select(p => p.Postor.IdPostor)
+                            .Distinct()
+                            .Count(),
+
+                        Postores = string.Join(", ",
+                            s.Pujas
+                                .Select(p => p.Postor.Nombre)
+                                .Distinct()
+                        )
+
                     })
                     .ToList();
+                AjustarColumnasSubastas(dgvSubastas);
+
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al filtrar subastas: {ex.Message}");
             }
+        }
+
+        private void AjustarColumnasSubastas(DataGridView dgv)
+        {
+            if (dgv.Columns.Contains("IdSubasta"))
+                dgv.Columns["IdSubasta"].FillWeight = 50;
+
+            if (dgv.Columns.Contains("Estado"))
+                dgv.Columns["Estado"].FillWeight = 70;
+
+            if (dgv.Columns.Contains("Pujas"))
+                dgv.Columns["Pujas"].FillWeight = 60;
+
+            if (dgv.Columns.Contains("FechaInicio"))
+            {
+                dgv.Columns["FechaInicio"].FillWeight = 100;
+                dgv.Columns["FechaInicio"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+
+            if (dgv.Columns.Contains("FechaFin"))
+            {
+                dgv.Columns["FechaFin"].FillWeight = 140;
+                dgv.Columns["FechaFin"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+
+            if (dgv.Columns.Contains("Postores"))
+            {
+                dgv.Columns["Postores"].FillWeight = 200;
+            }
+
+            if (dgv.Columns.Contains("CantidadPostores"))
+            {
+                dgv.Columns["CantidadPostores"].HeaderText = "Postores";
+                dgv.Columns["CantidadPostores"].FillWeight = 60;
+            }
+
+
         }
 
         private void PostorView_Load(object sender, EventArgs e)
@@ -109,7 +155,7 @@ namespace Subastas_Final.Views
 
         private void btnPujar_Click(object sender, EventArgs e)
         {
-            // 1. Validar selección
+            //  Validar selección
             if (dgvSubastas.SelectedRows.Count == 0)
             {
                 MessageBox.Show(
@@ -121,26 +167,48 @@ namespace Subastas_Final.Views
                 return;
             }
 
-            var fila = dgvSubastas.SelectedRows[0];
+            //  Obtener ID de la subasta
+            int idSubasta = Convert.ToInt32(
+                dgvSubastas.SelectedRows[0].Cells["IdSubasta"].Value
+            );
 
-            int idSubasta = Convert.ToInt32(fila.Cells["IdSubasta"].Value);
-            string estado = fila.Cells["Estado"].Value.ToString();
+            //  Llamar al service
+            bool ok = subastaService.Pujar(idSubasta, postor);
 
-            // 2. Validar que esté activa
-            if (estado != "Activa")
+            if (!ok)
             {
                 MessageBox.Show(
-                    "No podés pujar en una subasta cerrada.",
-                    "Subasta no disponible",
+                    "No se pudo realizar la puja. La subasta puede estar cerrada.",
+                    "Puja rechazada",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
                 return;
             }
 
-            // 3. Solo prueba por ahora
-            MessageBox.Show($"Subasta {idSubasta} activa. Podés pujar.");
+            MessageBox.Show(
+                "Puja realizada correctamente.",
+                "Éxito",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+
+            // Refrescar grilla
+            FiltrarYCargarSubastas();
         }
 
+        private void btnCambiarRol_Click_1(object sender, EventArgs e)
+        {
+            var subastador = new Subastador
+            {
+                IdSubastador = postor.IdPostor,
+                Nombre = postor.Nombre,
+                Email = postor.Email
+            };
+
+            var vistaSubastador = new SubastadorView(subastador);
+            vistaSubastador.Show();
+            this.Close();
+        }
     }
 }

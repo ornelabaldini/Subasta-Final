@@ -1,17 +1,18 @@
 ﻿using Subastas_Final.Entities;
-using Subastas_Final.Repositories;
+using Subastas_Final.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+
 
 namespace Subastas_Final.Views
 {
     public partial class SubastadorView : Form
     {
         private Subastador subastador;
-        private SubastadorRepository subRepo;
-        private SubastaRepository subastaRepo;
+        private SubastadorService subService;
+        private SubastaService subastaService;
 
         public SubastadorView(Subastador sub)
         {
@@ -21,8 +22,8 @@ namespace Subastas_Final.Views
             cmbFiltroSubastas.SelectedIndexChanged += CmbFiltroSubastas_SelectedIndexChanged;
             cmbFiltroSubastas.SelectedIndex = 0;
 
-            subRepo = new SubastadorRepository();
-            subastaRepo = new SubastaRepository();
+            subService = new SubastadorService();
+            subastaService = new SubastaService();
 
             lblBienvenido.Text = $"Bienvenid@ {subastador.Nombre}";
             lblId.Text = $"ID: {subastador.IdSubastador}";
@@ -40,8 +41,10 @@ namespace Subastas_Final.Views
         {
             try
             {
-                var lista = subastaRepo.ObtenerTodasSubastas() ?? new List<Subasta>();
+                var lista = subastaService.ObtenerTodasSubastas() ?? new List<Subasta>();
                 dgvSubastas.DataSource = TransformarParaGrid(lista);
+                AjustarColumnasSubastas();
+
             }
             catch (Exception ex)
             {
@@ -62,7 +65,7 @@ namespace Subastas_Final.Views
                     return; // no hay nada seleccionado, salimos del método
 
                 var hoy = DateTime.Now;
-                var lista = subastaRepo.ObtenerTodasSubastas() ?? new List<Subasta>();
+                var lista = subastaService.ObtenerTodasSubastas() ?? new List<Subasta>();
 
                 switch (cmbFiltroSubastas.SelectedItem?.ToString())
                 {
@@ -83,6 +86,7 @@ namespace Subastas_Final.Views
                 }
 
                 dgvSubastas.DataSource = TransformarParaGrid(lista);
+                AjustarColumnasSubastas();
             }
             catch (Exception ex)
             {
@@ -119,14 +123,24 @@ namespace Subastas_Final.Views
                     Articulo = new Articulo { Nombre = txtArticulo.Text },
                     PrecioBase = precioBase,
                     PujaMinima = pujaMinima,
-                    MontoActual = precioBase,
-                    FechaInicio = DateTime.Now,
+                    MontoActual = precioBase,                  
                     FechaFin = dtpFechaFin.Value,
                     Estado = true,
                     Subastador = subastador
                 };
 
-                subastaRepo.CrearSubasta(subasta);
+                bool creada = subastaService.CrearSubasta(subasta);
+
+                if (!creada)
+                {
+                    MessageBox.Show(
+                        "La fecha fin debe ser al menos 1 hora posterior a la actual.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return;
+                }
 
                 MessageBox.Show("Subasta creada correctamente!");
                 LimpiarCampos();
@@ -156,11 +170,32 @@ namespace Subastas_Final.Views
             dtpFechaFin.Value = DateTime.Now.AddDays(1);
         }
 
+        private void AjustarColumnasSubastas()
+        {
+            if (dgvSubastas.Columns.Contains("IdSubasta"))
+                dgvSubastas.Columns["IdSubasta"].FillWeight = 50;
+
+            if (dgvSubastas.Columns.Contains("Estado"))
+                dgvSubastas.Columns["Estado"].FillWeight = 70;
+
+            if (dgvSubastas.Columns.Contains("Pujas"))
+                dgvSubastas.Columns["Pujas"].FillWeight = 60;
+
+            if (dgvSubastas.Columns.Contains("FechaInicio"))
+            {
+                dgvSubastas.Columns["FechaInicio"].FillWeight = 140;
+                dgvSubastas.Columns["FechaInicio"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+
+            if (dgvSubastas.Columns.Contains("FechaFin"))
+            {
+                dgvSubastas.Columns["FechaFin"].FillWeight = 140;
+                dgvSubastas.Columns["FechaFin"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+        }
+
         private List<object> TransformarParaGrid(List<Subasta> listaSubastas)
         {
-            if (listaSubastas == null)
-                return new List<object>();
-
             return listaSubastas
                 .Where(s => s != null)
                 .Select(s => new
@@ -181,5 +216,22 @@ namespace Subastas_Final.Views
                 .ToList<object>();
         }
 
+        private void btnCambiarRol_Click(object sender, EventArgs e)
+        {
+            var postorService = new PostorService();
+
+            Postor postor = postorService.ObtenerOCrear(
+                new Postor
+                {
+                    IdPostor = subastador.IdSubastador,
+                    Nombre = subastador.Nombre,
+                    Email = subastador.Email
+                }
+            );
+
+            PostorView vista = new PostorView(postor);
+            vista.Show();
+            this.Close();
+        }
     }
 }

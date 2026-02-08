@@ -17,6 +17,26 @@ namespace Subastas_Final.Services
 
         public bool CrearSubasta(Subasta nuevaSubasta)
         {
+            if (nuevaSubasta == null)
+                return false;
+
+            DateTime ahora = DateTime.Now;
+
+            // Fecha inicio SIEMPRE la decide el sistema
+            nuevaSubasta.FechaInicio = ahora;
+
+            // Validaciones
+            if (nuevaSubasta.FechaFin <= ahora)
+                return false;
+
+            if (nuevaSubasta.FechaFin < ahora.AddHours(1))
+                return false;
+
+            // Inicializaciones obligatorias
+            nuevaSubasta.Estado = true;
+            nuevaSubasta.MontoActual = nuevaSubasta.PrecioBase;
+            nuevaSubasta.Pujas = new List<Puja>();
+
             _subastaRepository.CrearSubasta(nuevaSubasta);
             return true;
         }
@@ -58,24 +78,35 @@ namespace Subastas_Final.Services
             return true;
         }
 
-        public bool RecibirPuja(int idSubasta, Postor postor, decimal monto, decimal pujaMinima)
+        public bool Pujar(int idSubasta, Postor postor)
         {
             var subasta = ObtenerSubastaPorId(idSubasta);
             if (subasta == null)
-                throw new Exception("Subasta no encontrada.");
-
-            // Determinar el mínimo para esta puja
-            decimal minimo = subasta.MontoActual == 0 ? subasta.PrecioBase : subasta.MontoActual + pujaMinima;
-
-            // Validar que la puja cumpla con el mínimo
-            if (monto < minimo)
                 return false;
 
-            // Registrar la puja
-            var nuevaPuja = new Puja { Postor = postor, Subasta = subasta, Monto = monto, Fecha = DateTime.Now };
+            if (!subasta.Estado)
+                return false;
+
+            // Primera puja: arranca desde el precio base
+            if (subasta.Pujas.Count == 0)
+            {
+                subasta.MontoActual = subasta.PrecioBase;
+            }
+
+            // La puja siempre es la puja mínima
+            decimal monto = subasta.PujaMinima;
+
+            Puja nuevaPuja = new Puja(postor, subasta, monto, DateTime.Now);
             subasta.Pujas.Add(nuevaPuja);
 
-            // Actualizar MontoActual sumando la puja
+            
+            // Si el postor no estaba en la subasta, lo agregamos
+            if (!subasta.Postores.Any(p => p.IdPostor == postor.IdPostor))
+            {
+                subasta.Postores.Add(postor);
+            }
+
+            // Actualizar monto actual
             subasta.MontoActual += monto;
 
             return true;
