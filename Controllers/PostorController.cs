@@ -11,10 +11,11 @@ namespace Subastas_Final.Controllers
         {
             _postorService = new PostorService();
         }
-        public bool CrearPostor(Postor nuevoPostor)
+        public bool CrearPostor(Postor post, out Postor registrado)
         {
-            return _postorService.CrearPostor(nuevoPostor);
+            return _postorService.CrearPostor(post, out registrado);
         }
+
         public List<Postor> ObtenerTodosPostores()
         {
             return _postorService.ObtenerTodosPostores();

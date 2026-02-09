@@ -12,10 +12,11 @@ namespace Subastas_Final.Controllers
         {
             _subastadorService = new SubastadorService();
         }
-        public bool CrearSubastador(Subastador nuevoSubastador)
+        public bool CrearSubastador(Subastador sub, out Subastador registrado)
         {
-            return _subastadorService.CrearSubastador(nuevoSubastador);
+            return _subastadorService.CrearSubastador(sub, out registrado);
         }
+
         public List<Subastador> ObtenerTodosSubastadores()
         {
             return _subastadorService.ObtenerTodosSubastadores();

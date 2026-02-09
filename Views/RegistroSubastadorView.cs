@@ -1,6 +1,5 @@
 ﻿using Subastas_Final.Controllers;
 using Subastas_Final.Entities;
-using Subastas_Final.Repositories;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -22,41 +21,48 @@ namespace Subastas_Final.Views
             txtEmail.KeyDown += txtEmail_KeyDown;
         }
 
+        
         private void btnGuardar_Click(object sender, EventArgs e)
-        {
-            // Validar que no estén vacíos
-            if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                MessageBox.Show("Por favor completa todos los campos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+{
+    // 1️⃣ Validar que no estén vacíos
+    if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtEmail.Text))
+    {
+        MessageBox.Show("Por favor completa todos los campos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+    }
 
-            // Validar email simple
-            if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-            {
-                MessageBox.Show("Ingresa un email válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+    // 2️⃣ Validar email simple
+    if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+    {
+        MessageBox.Show("Ingresa un email válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+    }
 
-            // Crear objeto Subastador
-            Subastador nuevoSubastador = new Subastador
-            {
-                Nombre = txtNombre.Text,
-                Email = txtEmail.Text
-            };
+    // 3️⃣ Crear objeto Subastador
+    Subastador nuevoSubastador = new Subastador
+    {
+        Nombre = txtNombre.Text,
+        Email = txtEmail.Text
+    };
 
-            // Guardar en el repositorio
-            subastadorController.CrearSubastador(nuevoSubastador);
+    // 4️⃣ Guardar usando el Controller, obtener el registrado (ya tiene ID correcto)
+    Subastador registrado;
+    bool creado = subastadorController.CrearSubastador(nuevoSubastador, out registrado);
 
-            // Asignar la propiedad para que la ventana que llamó pueda acceder al nuevo Subastador
-            this.Subastador = nuevoSubastador;
+    // 5️⃣ Asignar la propiedad para la ventana llamante
+    this.Subastador = registrado;
 
-            MessageBox.Show("Registro exitoso!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    // 6️⃣ Mostrar mensaje según corresponda
+    if (creado)
+        MessageBox.Show("Registro exitoso!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    else
+        MessageBox.Show("Ya existe un subastador con ese email. Se cargaron sus datos existentes.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Cerrar el formulario con resultado OK
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
+    // 7️⃣ Cerrar el formulario con resultado OK
+    this.DialogResult = DialogResult.OK;
+    this.Close();
+}
+
 
         private void txtNombre_KeyDown(object sender, KeyEventArgs e)
         {

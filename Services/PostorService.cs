@@ -14,19 +14,23 @@ namespace Subastas_Final.Services
             _postorRepository = new PostorRepository();
         }
 
-        public bool CrearPostor(Postor nuevoPostor)
+        public bool CrearPostor(Postor nuevoPostor, out Postor registrado)
         {
+            // Verificar si ya existe por email
             var existente = _postorRepository.ObtenerTodosPostores()
                 .Find(p => p.Email.ToLower() == nuevoPostor.Email.ToLower());
 
             if (existente != null)
-                return false; // ya existe
+            {
+                registrado = existente; // devolvemos el existente
+                return false;            // no se creó uno nuevo
+            }
 
-            _postorRepository.CrearPostor(nuevoPostor); // el repo asigna el ID
-            return true;
+            // Guardar usando el repositorio (que asigna el ID)
+            _postorRepository.CrearPostor(nuevoPostor);
+            registrado = nuevoPostor;
+            return true;                 // se creó uno nuevo
         }
-
-
 
         public List<Postor> ObtenerTodosPostores()
         {

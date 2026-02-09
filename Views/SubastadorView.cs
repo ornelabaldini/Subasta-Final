@@ -197,6 +197,26 @@ namespace Subastas_Final.Views
                 .ToList<object>();
         }
 
-        
+        private void btnVerUsuarios_Click(object sender, EventArgs e)
+        {
+            var postorController = new PostorController();
+            var subastadorController = new SubastadorController();
+
+            // Obtener listas
+            var postores = postorController.ObtenerTodosPostores();
+            var subastadores = subastadorController.ObtenerTodosSubastadores();
+
+            // Construir texto para mostrar
+            string info = " ~ POSTORES:\n";
+            foreach (var p in postores)
+                info += $"- ID: {p.IdPostor},{p.Nombre},{p.Email}\n";
+
+            info += "\n~ SUBASTADORES:\n";
+            foreach (var s in subastadores)
+                info += $"- ID: {s.IdSubastador},{s.Nombre},{s.Email}\n";
+
+            // Mostrar en MessageBox
+            MessageBox.Show(info, "Usuarios Registrados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

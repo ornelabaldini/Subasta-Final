@@ -25,6 +25,7 @@
             this.cmbFiltroSubastas = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.nudMonto = new System.Windows.Forms.NumericUpDown();
+            this.btnVerUsuarios = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubastas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMonto)).BeginInit();
             this.SuspendLayout();
@@ -67,7 +68,7 @@
             this.dgvSubastas.Name = "dgvSubastas";
             this.dgvSubastas.RowHeadersWidth = 62;
             this.dgvSubastas.RowTemplate.Height = 28;
-            this.dgvSubastas.Size = new System.Drawing.Size(1414, 378);
+            this.dgvSubastas.Size = new System.Drawing.Size(1175, 378);
             this.dgvSubastas.TabIndex = 3;
             // 
             // btnPujar
@@ -76,7 +77,7 @@
             this.btnPujar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPujar.Font = new System.Drawing.Font("Javanese Text", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPujar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnPujar.Location = new System.Drawing.Point(669, 128);
+            this.btnPujar.Location = new System.Drawing.Point(510, 128);
             this.btnPujar.Name = "btnPujar";
             this.btnPujar.Size = new System.Drawing.Size(137, 65);
             this.btnPujar.TabIndex = 4;
@@ -124,7 +125,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(643, 96);
+            this.label1.Location = new System.Drawing.Point(489, 90);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(183, 20);
             this.label1.TabIndex = 11;
@@ -132,7 +133,7 @@
             // 
             // nudMonto
             // 
-            this.nudMonto.Location = new System.Drawing.Point(883, 147);
+            this.nudMonto.Location = new System.Drawing.Point(669, 147);
             this.nudMonto.Maximum = new decimal(new int[] {
             -1304428544,
             434162106,
@@ -143,12 +144,25 @@
             this.nudMonto.TabIndex = 13;
             this.nudMonto.ThousandsSeparator = true;
             // 
+            // btnVerUsuarios
+            // 
+            this.btnVerUsuarios.BackColor = System.Drawing.Color.Black;
+            this.btnVerUsuarios.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnVerUsuarios.Location = new System.Drawing.Point(996, 26);
+            this.btnVerUsuarios.Name = "btnVerUsuarios";
+            this.btnVerUsuarios.Size = new System.Drawing.Size(237, 44);
+            this.btnVerUsuarios.TabIndex = 14;
+            this.btnVerUsuarios.Text = "Ver Postores y Subastadores";
+            this.btnVerUsuarios.UseVisualStyleBackColor = false;
+            this.btnVerUsuarios.Click += new System.EventHandler(this.btnVerUsuarios_Click);
+            // 
             // PostorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1450, 622);
+            this.ClientSize = new System.Drawing.Size(1276, 622);
+            this.Controls.Add(this.btnVerUsuarios);
             this.Controls.Add(this.nudMonto);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbFiltroSubastas);
@@ -181,5 +195,6 @@
         private System.Windows.Forms.ComboBox cmbFiltroSubastas;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown nudMonto;
+        private System.Windows.Forms.Button btnVerUsuarios;
     }
 }

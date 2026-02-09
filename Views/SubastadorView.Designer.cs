@@ -31,6 +31,7 @@
             this.txtArticulo = new System.Windows.Forms.TextBox();
             this.txtPuja = new System.Windows.Forms.TextBox();
             this.dtpFechaFin = new System.Windows.Forms.DateTimePicker();
+            this.btnVerUsuarios = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubastas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -204,12 +205,25 @@
             this.dtpFechaFin.Size = new System.Drawing.Size(170, 26);
             this.dtpFechaFin.TabIndex = 17;
             // 
+            // btnVerUsuarios
+            // 
+            this.btnVerUsuarios.BackColor = System.Drawing.Color.Black;
+            this.btnVerUsuarios.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnVerUsuarios.Location = new System.Drawing.Point(1063, 21);
+            this.btnVerUsuarios.Name = "btnVerUsuarios";
+            this.btnVerUsuarios.Size = new System.Drawing.Size(237, 44);
+            this.btnVerUsuarios.TabIndex = 18;
+            this.btnVerUsuarios.Text = "Ver Postores y Subastadores";
+            this.btnVerUsuarios.UseVisualStyleBackColor = false;
+            this.btnVerUsuarios.Click += new System.EventHandler(this.btnVerUsuarios_Click);
+            // 
             // SubastadorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1323, 663);
+            this.Controls.Add(this.btnVerUsuarios);
             this.Controls.Add(this.dtpFechaFin);
             this.Controls.Add(this.txtPuja);
             this.Controls.Add(this.txtArticulo);
@@ -254,5 +268,6 @@
         private System.Windows.Forms.TextBox txtArticulo;
         private System.Windows.Forms.TextBox txtPuja;
         private System.Windows.Forms.DateTimePicker dtpFechaFin;
+        private System.Windows.Forms.Button btnVerUsuarios;
     }
 }

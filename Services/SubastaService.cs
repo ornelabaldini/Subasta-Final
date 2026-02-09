@@ -3,6 +3,7 @@ using Subastas_Final.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Subastas_Final.Services
 {
@@ -102,9 +103,14 @@ namespace Subastas_Final.Services
 
             // El subastador no puede pujar
             if (subasta.Subastador.IdSubastador == postor.IdPostor)
+            {
+                MessageBox.Show("No podés pujar tu propia subasta.", "Atención");
                 return false;
+            }
 
-            decimal montoMinimo = subasta.MontoActual + subasta.PujaMinima;
+
+            decimal montoMinimo = subasta.Pujas.Count == 0 ? subasta.PrecioBase : subasta.MontoActual + subasta.PujaMinima;
+
 
             if (montoIngresado < montoMinimo)
                 return false;

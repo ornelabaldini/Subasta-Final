@@ -12,23 +12,24 @@ namespace Subastas_Final.Services
         {
             _subastadorRepository = new SubastadorRepository();
         }
-        public bool CrearSubastador(Subastador nuevoSubastador)
-        {
+        public bool CrearSubastador(Subastador nuevoSubastador, out Subastador registrado)
+{
             // Verificar si ya existe por email
             var existente = _subastadorRepository.ObtenerTodosSubastadores()
                 .Find(s => s.Email.ToLower() == nuevoSubastador.Email.ToLower());
 
             if (existente != null)
             {
-                // Ya existe, no crear de nuevo
-                return false;
+                registrado = existente; // devolvemos el que ya existía
+                return false;            // no se creó uno nuevo
             }
 
             // Guardar usando el repositorio (que asigna el ID)
             _subastadorRepository.CrearSubastador(nuevoSubastador);
-
-            return true;
+            registrado = nuevoSubastador;
+            return true;                 // se creó uno nuevo
         }
+
 
 
         public List<Subastador> ObtenerTodosSubastadores()

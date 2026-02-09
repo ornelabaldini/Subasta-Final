@@ -38,22 +38,24 @@ namespace Subastas_Final.Views
                 return;
             }
 
-            // Crear Postor
+            // Crear objeto Postor
             Postor nuevoPostor = new Postor
             {
                 Nombre = txtNombre.Text,
                 Email = txtEmail.Text
             };
 
-            // Guardar en repositorio
-            postorController.CrearPostor(nuevoPostor);
+            bool creado = postorController.CrearPostor(nuevoPostor, out Postor registrado);
 
-            // Pasar el Postor registrado a quien llamó
-            this.Postor = nuevoPostor;
+            // Guardamos el objeto registrado (ya sea nuevo o existente)
+            this.Postor = registrado;
 
-            MessageBox.Show("Registro exitoso!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (creado)
+                MessageBox.Show("Registro exitoso!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Bienvenid@", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Cerrar formulario con OK
+            // Cerrar el formulario
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
