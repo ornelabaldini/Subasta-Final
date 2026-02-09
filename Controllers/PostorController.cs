@@ -32,9 +32,5 @@ namespace Subastas_Final.Controllers
             return _postorService.EliminarPostor(idPostor);
         }
 
-        public Postor ObtenerOCrear(Postor datos)
-        {
-            return _postorService.ObtenerOCrear(datos);
-        }
     }
 }

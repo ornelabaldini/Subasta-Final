@@ -11,6 +11,7 @@ namespace Subastas_Final.Views
     public partial class SubastadorView : Form
     {
         private Subastador subastador;
+        private Postor postor;
         private SubastaController subastaController;
 
         public SubastadorView(Subastador sub)
@@ -184,14 +185,9 @@ namespace Subastas_Final.Views
                 .Where(s => s != null)
                 .Select(s => new
                 {
-                    IdSubasta = s.IdSubasta,
+                 
                     Articulo = s.Articulo?.Nombre ?? "Sin artículo",
-                    PrecioBase = s.PrecioBase,
-                    MontoActual = s.MontoActual,
-                    PujaMinima = s.PujaMinima,
                     Estado = s.Estado ? "Activa" : "Cerrada",
-                    FechaInicio = s.FechaInicio,
-                    FechaFin = s.FechaFin,
                     Subastador = s.Subastador?.Nombre ?? "Sin subastador",
                     Pujas = s.Pujas?.Count ?? 0,
                     Postores = s.Postores != null && s.Postores.Any()
@@ -201,22 +197,6 @@ namespace Subastas_Final.Views
                 .ToList<object>();
         }
 
-        private void btnCambiarRol_Click(object sender, EventArgs e)
-        {
-            var postorController = new PostorController();
-
-            Postor postor = postorController.ObtenerOCrear(
-                new Postor
-                {
-                    IdPostor = subastador.IdSubastador,
-                    Nombre = subastador.Nombre,
-                    Email = subastador.Email
-                }
-            );
-
-            PostorView vista = new PostorView(postor);
-            vista.Show();
-            this.Close();
-        }
+        
     }
 }

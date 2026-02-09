@@ -10,6 +10,7 @@ namespace Subastas_Final.Views
     public partial class PostorView : Form
     {
         private Postor postor;
+        private Subastador subastador;
         private SubastaController subastaController;
 
         public PostorView(Postor post)
@@ -85,7 +86,10 @@ namespace Subastas_Final.Views
                     FechaInicio = s.FechaInicio,
                     FechaFin = s.FechaFin,
                     Subastador = s.Subastador?.Nombre ?? "Sin subastador",
-                    Pujas = s.Pujas?.Count ?? 0
+                    Pujas = s.Pujas?.Count ?? 0,
+                    Postores = s.Postores != null && s.Postores.Any()
+                                ? string.Join(", ", s.Postores.Select(p => p.Nombre))
+                                : "Sin postores"
                 })
                 .ToList<object>();
         }
@@ -125,13 +129,9 @@ namespace Subastas_Final.Views
 
             decimal minimo = subasta.MontoActual + subasta.PujaMinima;
 
-            nudMonto.Minimum = minimo;
+            nudMonto.Minimum = 0;
 
-            
-            if (minimo <= nudMonto.Maximum)
-                nudMonto.Value = minimo;
-            else
-                nudMonto.Value = nudMonto.Maximum;
+ 
         }
 
 
@@ -162,18 +162,6 @@ namespace Subastas_Final.Views
             FiltrarYCargarSubastas();
         }
 
-        private void btnCambiarRol_Click(object sender, EventArgs e)
-        {
-            var subastador = new Subastador
-            {
-                IdSubastador = postor.IdPostor,
-                Nombre = postor.Nombre,
-                Email = postor.Email
-            };
-
-            var vistaSubastador = new SubastadorView(subastador);
-            vistaSubastador.Show();
-            this.Close();
-        }
+     
     }
 }

@@ -24,7 +24,6 @@
             this.lblFiltrarSubastas = new System.Windows.Forms.Label();
             this.cmbFiltroSubastas = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnCambiarRol = new System.Windows.Forms.Button();
             this.nudMonto = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubastas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMonto)).BeginInit();
@@ -68,7 +67,7 @@
             this.dgvSubastas.Name = "dgvSubastas";
             this.dgvSubastas.RowHeadersWidth = 62;
             this.dgvSubastas.RowTemplate.Height = 28;
-            this.dgvSubastas.Size = new System.Drawing.Size(1053, 378);
+            this.dgvSubastas.Size = new System.Drawing.Size(1414, 378);
             this.dgvSubastas.TabIndex = 3;
             // 
             // btnPujar
@@ -131,23 +130,14 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "Seleccioná una  subasta";
             // 
-            // btnCambiarRol
-            // 
-            this.btnCambiarRol.BackColor = System.Drawing.Color.Black;
-            this.btnCambiarRol.Font = new System.Drawing.Font("Impact", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCambiarRol.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnCambiarRol.Location = new System.Drawing.Point(1080, 384);
-            this.btnCambiarRol.Name = "btnCambiarRol";
-            this.btnCambiarRol.Size = new System.Drawing.Size(163, 95);
-            this.btnCambiarRol.TabIndex = 12;
-            this.btnCambiarRol.Text = "Cambiar a Subastador";
-            this.btnCambiarRol.UseVisualStyleBackColor = false;
-            this.btnCambiarRol.Click += new System.EventHandler(this.btnCambiarRol_Click);
-            // 
             // nudMonto
             // 
-            this.nudMonto.DecimalPlaces = 2;
             this.nudMonto.Location = new System.Drawing.Point(883, 147);
+            this.nudMonto.Maximum = new decimal(new int[] {
+            -1304428544,
+            434162106,
+            542,
+            0});
             this.nudMonto.Name = "nudMonto";
             this.nudMonto.Size = new System.Drawing.Size(120, 26);
             this.nudMonto.TabIndex = 13;
@@ -160,7 +150,6 @@
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1450, 622);
             this.Controls.Add(this.nudMonto);
-            this.Controls.Add(this.btnCambiarRol);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbFiltroSubastas);
             this.Controls.Add(this.lblFiltrarSubastas);
@@ -191,7 +180,6 @@
         private System.Windows.Forms.Label lblFiltrarSubastas;
         private System.Windows.Forms.ComboBox cmbFiltroSubastas;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnCambiarRol;
         private System.Windows.Forms.NumericUpDown nudMonto;
     }
 }

@@ -14,10 +14,22 @@ namespace Subastas_Final.Services
         }
         public bool CrearSubastador(Subastador nuevoSubastador)
         {
-            nuevoSubastador.IdSubastador = _subastadorRepository.SiguienteIdSubastador;
+            // Verificar si ya existe por email
+            var existente = _subastadorRepository.ObtenerTodosSubastadores()
+                .Find(s => s.Email.ToLower() == nuevoSubastador.Email.ToLower());
+
+            if (existente != null)
+            {
+                // Ya existe, no crear de nuevo
+                return false;
+            }
+
+            // Guardar usando el repositorio (que asigna el ID)
             _subastadorRepository.CrearSubastador(nuevoSubastador);
+
             return true;
         }
+
 
         public List<Subastador> ObtenerTodosSubastadores()
         {

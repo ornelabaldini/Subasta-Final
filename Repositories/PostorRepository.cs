@@ -9,11 +9,9 @@ namespace Subastas_Final.Repositories
     {
         private static List<Postor> postores = new List<Postor>();
 
-        private static int siguienteIdPostor = 1;
+        private static int siguienteIdPostor = 0;
 
         public List<Postor> Postores { get => postores; }
-
-        public int SiguienteIdPostor { get => siguienteIdPostor++; }
 
         public PostorRepository()
         {
@@ -22,7 +20,8 @@ namespace Subastas_Final.Repositories
 
         public void CrearPostor(Postor postor)
         {
-            postor.IdPostor = SiguienteIdPostor; // asigna un ID único
+            siguienteIdPostor++;         
+            postor.IdPostor = siguienteIdPostor; 
             postores.Add(postor);
         }
 

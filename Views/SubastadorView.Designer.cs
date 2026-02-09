@@ -31,7 +31,6 @@
             this.txtArticulo = new System.Windows.Forms.TextBox();
             this.txtPuja = new System.Windows.Forms.TextBox();
             this.dtpFechaFin = new System.Windows.Forms.DateTimePicker();
-            this.btnCambiarRol = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubastas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,7 +96,7 @@
             this.btnVolver.FlatAppearance.BorderSize = 0;
             this.btnVolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVolver.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnVolver.Location = new System.Drawing.Point(12, 12);
+            this.btnVolver.Location = new System.Drawing.Point(12, 15);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(72, 29);
             this.btnVolver.TabIndex = 6;
@@ -205,26 +204,12 @@
             this.dtpFechaFin.Size = new System.Drawing.Size(170, 26);
             this.dtpFechaFin.TabIndex = 17;
             // 
-            // btnCambiarRol
-            // 
-            this.btnCambiarRol.BackColor = System.Drawing.Color.Black;
-            this.btnCambiarRol.Font = new System.Drawing.Font("Impact", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCambiarRol.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnCambiarRol.Location = new System.Drawing.Point(1029, 59);
-            this.btnCambiarRol.Name = "btnCambiarRol";
-            this.btnCambiarRol.Size = new System.Drawing.Size(194, 37);
-            this.btnCambiarRol.TabIndex = 18;
-            this.btnCambiarRol.Text = "Cambiar a Postor";
-            this.btnCambiarRol.UseVisualStyleBackColor = false;
-            this.btnCambiarRol.Click += new System.EventHandler(this.btnCambiarRol_Click);
-            // 
             // SubastadorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1323, 663);
-            this.Controls.Add(this.btnCambiarRol);
             this.Controls.Add(this.dtpFechaFin);
             this.Controls.Add(this.txtPuja);
             this.Controls.Add(this.txtArticulo);
@@ -269,6 +254,5 @@
         private System.Windows.Forms.TextBox txtArticulo;
         private System.Windows.Forms.TextBox txtPuja;
         private System.Windows.Forms.DateTimePicker dtpFechaFin;
-        private System.Windows.Forms.Button btnCambiarRol;
     }
 }

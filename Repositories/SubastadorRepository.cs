@@ -8,11 +8,9 @@ namespace Subastas_Final.Repositories
     internal class SubastadorRepository
     {
         private static List<Subastador> subastadores = new List<Subastador>();
-        private static int siguienteIdSubastador = 1;
+        private static int siguienteIdSubastador = 0;
 
         public List<Subastador> Subastadores { get => subastadores; }
-
-        public int SiguienteIdSubastador { get => siguienteIdSubastador++; }
 
         public SubastadorRepository()
         {
@@ -22,7 +20,9 @@ namespace Subastas_Final.Repositories
 
         public void CrearSubastador(Subastador subastador)
         {
-            subastador.IdSubastador = SiguienteIdSubastador; 
+
+            siguienteIdSubastador++; 
+            subastador.IdSubastador = siguienteIdSubastador; 
             subastadores.Add(subastador);
         }
 

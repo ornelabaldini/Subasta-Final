@@ -16,10 +16,17 @@ namespace Subastas_Final.Services
 
         public bool CrearPostor(Postor nuevoPostor)
         {
-            nuevoPostor.IdPostor = _postorRepository.SiguienteIdPostor;
-            _postorRepository.CrearPostor(nuevoPostor);
+            var existente = _postorRepository.ObtenerTodosPostores()
+                .Find(p => p.Email.ToLower() == nuevoPostor.Email.ToLower());
+
+            if (existente != null)
+                return false; // ya existe
+
+            _postorRepository.CrearPostor(nuevoPostor); // el repo asigna el ID
             return true;
         }
+
+
 
         public List<Postor> ObtenerTodosPostores()
         {
@@ -53,16 +60,6 @@ namespace Subastas_Final.Services
             return true;
         }
 
-        public Postor ObtenerOCrear(Postor datos)
-        {
-            var existente = _postorRepository.ObtenerPostorPorId(datos.IdPostor);
-
-            if (existente != null)
-                return existente;
-
-            _postorRepository.CrearPostor(datos);
-            return datos;
-        }
 
     }
 }
