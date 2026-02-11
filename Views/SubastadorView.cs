@@ -11,8 +11,9 @@ namespace Subastas_Final.Views
     public partial class SubastadorView : Form
     {
         private Subastador subastador;
-        private Postor postor;
         private SubastaController subastaController;
+        private List<int> subastasNotificadas = new List<int>();
+
 
         public SubastadorView(Subastador sub)
         {
@@ -46,7 +47,7 @@ namespace Subastas_Final.Views
 
         private void CargarSubastas()
         {
-            FiltrarYCargarSubastas(); // reutiliza el método filtrado
+            FiltrarYCargarSubastas(); 
         }
 
         private void CmbFiltroSubastas_SelectedIndexChanged(object sender, EventArgs e)
@@ -59,17 +60,35 @@ namespace Subastas_Final.Views
             if (cmbFiltroSubastas.SelectedItem == null || subastaController == null)
                 return;
 
-            try
+            subastaController.ActualizarSubastasVencidas();
+
+            var lista = subastaController.FiltrarSubastas(cmbFiltroSubastas.SelectedItem.ToString());
+
+            var postorController = new PostorController();
+            foreach (var s in lista)
             {
-                var lista = subastaController.FiltrarSubastas(cmbFiltroSubastas.SelectedItem.ToString());
-                dgvSubastas.DataSource = TransformarParaGrid(lista);
-                AjustarColumnasSubastas();
+                if (!s.Estado && s.IdGanador != 0 && !subastasNotificadas.Contains(s.IdSubasta))
+                {
+                    var ganador = postorController.ObtenerPostorPorId(s.IdGanador);
+                    if (ganador != null)
+                    {
+                        MessageBox.Show(
+                            $"La subasta de '{s.Articulo.Nombre}' finalizó.\n" +
+                            $"Ganador: {ganador.Nombre}\n" +
+                            $"Monto final: {s.MontoActual}",
+                            "Subasta finalizada",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+                        subastasNotificadas.Add(s.IdSubasta);
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al filtrar subastas: {ex.Message}");
-            }
+
+            dgvSubastas.DataSource = TransformarParaGrid(lista);
+            AjustarColumnasSubastas();
         }
+
 
         private void btnCrearSubasta_Click(object sender, EventArgs e)
         {
@@ -159,15 +178,9 @@ namespace Subastas_Final.Views
             if (dgvSubastas.Columns.Contains("Pujas"))
                 dgvSubastas.Columns["Pujas"].FillWeight = 60;
 
-            if (dgvSubastas.Columns.Contains("FechaInicio"))
-            {
-                dgvSubastas.Columns["FechaInicio"].FillWeight = 140;
-                dgvSubastas.Columns["FechaInicio"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
-            }
-
             if (dgvSubastas.Columns.Contains("FechaFin"))
             {
-                dgvSubastas.Columns["FechaFin"].FillWeight = 140;
+                dgvSubastas.Columns["FechaFin"].FillWeight = 120;
                 dgvSubastas.Columns["FechaFin"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
             }
 
@@ -181,18 +194,24 @@ namespace Subastas_Final.Views
 
         private List<object> TransformarParaGrid(List<Subasta> listaSubastas)
         {
+            var postorController = new PostorController();
+
             return listaSubastas
                 .Where(s => s != null)
                 .Select(s => new
                 {
-                 
-                    Articulo = s.Articulo?.Nombre ?? "Sin artículo",
+                    IdSubasta = s.IdSubasta,
+                    Articulo = s.Articulo.Nombre,
+                    PrecioBase = s.PrecioBase,
+                    PujaMinima = s.PujaMinima,
+                    MontoActual = s.MontoActual,
                     Estado = s.Estado ? "Activa" : "Cerrada",
-                    Subastador = s.Subastador?.Nombre ?? "Sin subastador",
+                    FechaFin = s.FechaFin,
+                    Subastador = s.Subastador.Nombre,
                     Pujas = s.Pujas?.Count ?? 0,
-                    Postores = s.Postores != null && s.Postores.Any()
-                                ? string.Join(", ", s.Postores.Select(p => p.Nombre))
-                                : "Sin postores"
+                    Ganando = s.Pujas != null && s.Pujas.Count > 0
+                        ? s.Pujas.OrderByDescending(p => p.Fecha).First().Postor.Nombre
+                        : "Sin ganador"
                 })
                 .ToList<object>();
         }

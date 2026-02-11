@@ -209,7 +209,7 @@
             // 
             this.btnVerUsuarios.BackColor = System.Drawing.Color.Black;
             this.btnVerUsuarios.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnVerUsuarios.Location = new System.Drawing.Point(1063, 21);
+            this.btnVerUsuarios.Location = new System.Drawing.Point(936, 64);
             this.btnVerUsuarios.Name = "btnVerUsuarios";
             this.btnVerUsuarios.Size = new System.Drawing.Size(237, 44);
             this.btnVerUsuarios.TabIndex = 18;

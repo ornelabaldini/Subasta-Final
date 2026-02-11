@@ -10,8 +10,9 @@ namespace Subastas_Final.Views
     public partial class PostorView : Form
     {
         private Postor postor;
-        private Subastador subastador;
         private SubastaController subastaController;
+        private List<int> subastasNotificadas = new List<int>();
+
 
         public PostorView(Postor post)
         {
@@ -36,7 +37,7 @@ namespace Subastas_Final.Views
 
             nudMonto.DecimalPlaces = 0;
             nudMonto.Minimum = 0;
-            nudMonto.Maximum = 1000000000; // o decimal.MaxValue
+            nudMonto.Maximum = 1000000000; 
             nudMonto.Increment = 1;
 
 
@@ -58,38 +59,64 @@ namespace Subastas_Final.Views
             if (cmbFiltroSubastas.SelectedItem == null)
                 return;
 
+            subastaController.ActualizarSubastasVencidas();
+
             var lista = subastaController.FiltrarSubastas(
                 cmbFiltroSubastas.SelectedItem.ToString()
             );
 
+            // Mostrar mensaje solo para subastas cerradas no notificadas
+            var postorController = new PostorController();
+            foreach (var s in lista)
+            {
+                if (!s.Estado && s.IdGanador != 0 && !subastasNotificadas.Contains(s.IdSubasta))
+                {
+                    var ganador = postorController.ObtenerPostorPorId(s.IdGanador);
+                    if (ganador != null)
+                    {
+                        MessageBox.Show(
+                            $"La subasta de '{s.Articulo.Nombre}' finalizó.\n" +
+                            $"Ganador: {ganador.Nombre}\n" +
+                            $"Monto final: {s.MontoActual}",
+                            "Subasta finalizada",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+                        subastasNotificadas.Add(s.IdSubasta);
+                    }
+                }
+            }
+
             dgvSubastas.DataSource = null;
             dgvSubastas.DataSource = TransformarParaGrid(lista);
-
             AjustarColumnasSubastas(dgvSubastas);
 
-            // fuerza actualización del mínimo al refrescar
             dgvSubastas_SelectionChanged(null, null);
         }
 
+
+
         private List<object> TransformarParaGrid(List<Subasta> listaSubastas)
         {
+            var postorController = new PostorController();
+
             return listaSubastas
+
                 .Where(s => s != null)
                 .Select(s => new
                 {
                     IdSubasta = s.IdSubasta,
-                    Articulo = s.Articulo?.Nombre ?? "Sin artículo",
+                    Articulo = s.Articulo.Nombre,
                     PrecioBase = s.PrecioBase,
                     PujaMinima = s.PujaMinima,
                     MontoActual = s.MontoActual,
                     Estado = s.Estado ? "Activa" : "Cerrada",
-                    FechaInicio = s.FechaInicio,
                     FechaFin = s.FechaFin,
-                    Subastador = s.Subastador?.Nombre ?? "Sin subastador",
+                    Subastador = s.Subastador.Nombre,
                     Pujas = s.Pujas?.Count ?? 0,
-                    Postores = s.Postores != null && s.Postores.Any()
-                                ? string.Join(", ", s.Postores.Select(p => p.Nombre))
-                                : "Sin postores"
+                    Ganando = s.Pujas != null && s.Pujas.Count > 0
+                        ? s.Pujas.OrderByDescending(p => p.Fecha).First().Postor.Nombre
+                        : "Sin ganador"
                 })
                 .ToList<object>();
         }
@@ -107,9 +134,6 @@ namespace Subastas_Final.Views
 
             if (dgv.Columns.Contains("Pujas"))
                 dgv.Columns["Pujas"].FillWeight = 50;
-
-            if (dgv.Columns.Contains("FechaInicio"))
-                dgv.Columns["FechaInicio"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
 
             if (dgv.Columns.Contains("FechaFin"))
                 dgv.Columns["FechaFin"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
@@ -129,11 +153,10 @@ namespace Subastas_Final.Views
 
             decimal minimo = subasta.MontoActual + subasta.PujaMinima;
 
-            nudMonto.Minimum = 0;
+            nudMonto.Minimum = minimo;
 
  
         }
-
 
         private void btnPujar_Click(object sender, EventArgs e)
         {
@@ -146,6 +169,20 @@ namespace Subastas_Final.Views
             int idSubasta = Convert.ToInt32(
                 dgvSubastas.SelectedRows[0].Cells["IdSubasta"].Value
             );
+            var subasta = subastaController.ObtenerSubastaPorId(idSubasta);
+
+            if (subasta == null)
+            {
+                MessageBox.Show("Subasta no encontrada.");
+                return;
+            }
+
+            if (!subasta.Estado)
+            {
+                MessageBox.Show("La subasta ya finalizó.");
+                return;
+            }
+
 
             decimal montoIngresado = nudMonto.Value;
 

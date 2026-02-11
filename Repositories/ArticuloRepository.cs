@@ -16,7 +16,7 @@ namespace Subastas_Final.Repositories
 
         public ArticuloRepository()
         {
-            // usamos la lista estática existente
+           
         }
 
         public void CrearArticulo(Articulo articulo)

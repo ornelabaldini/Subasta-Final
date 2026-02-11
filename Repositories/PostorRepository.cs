@@ -15,7 +15,7 @@ namespace Subastas_Final.Repositories
 
         public PostorRepository()
         {
-            //  usamos la lista estática existente
+          
         }
 
         public void CrearPostor(Postor postor)

@@ -30,7 +30,7 @@ namespace Subastas_Final.Services
             if (nuevaSubasta.FechaFin <= ahora)
                 return false;
 
-            if (nuevaSubasta.FechaFin < ahora.AddHours(1))
+            if (nuevaSubasta.FechaFin < ahora.AddMinutes(1))
                 return false;
 
             // Inicializaciones obligatorias
@@ -97,16 +97,22 @@ namespace Subastas_Final.Services
             if (DateTime.Now >= subasta.FechaFin)
             {
                 subasta.Estado = false;
+
+                if (subasta.PostorGanador != null)
+                    subasta.IdGanador = subasta.PostorGanador.IdPostor;
+
                 _subastaRepository.ActualizarSubasta(subasta);
                 return false;
             }
 
+
             // El subastador no puede pujar
-            if (subasta.Subastador.IdSubastador == postor.IdPostor)
+            if (subasta.Subastador.Email == postor.Email)
             {
                 MessageBox.Show("No podés pujar tu propia subasta.", "Atención");
                 return false;
             }
+
 
 
             decimal montoMinimo = subasta.Pujas.Count == 0 ? subasta.PrecioBase : subasta.MontoActual + subasta.PujaMinima;
@@ -128,5 +134,58 @@ namespace Subastas_Final.Services
 
             return true;
         }
+    
+        public List<Subasta> FiltrarSubastas(string tipoFiltro)
+            {
+                var todas = ObtenerTodasSubastas() ?? new List<Subasta>();
+                var hoy = DateTime.Now;
+
+                switch (tipoFiltro)
+                {
+                    case "Subastas en curso":
+                        return todas.Where(s => s.Estado && s.FechaInicio <= hoy && s.FechaFin >= hoy).ToList();
+
+                    case "Últimas 10 finalizadas":
+                        return todas.Where(s => !s.Estado)
+                                    .OrderByDescending(s => s.FechaFin)
+                                    .Take(10)
+                                    .ToList();
+
+                    case "Subastas pendientes":
+                        return todas.Where(s => s.FechaInicio > hoy).ToList();
+
+                    default:
+                        return todas;
+                }
+            }
+
+        public void ActualizarSubastasVencidas()
+        {
+            var subastas = _subastaRepository.ObtenerTodasSubastas();
+            var ahora = DateTime.Now;
+
+            foreach (var subasta in subastas)
+            {
+                if (subasta.Estado && subasta.FechaFin <= ahora)
+                {
+                    subasta.Estado = false;
+
+                    // calcular ganador
+                    if (subasta.Pujas != null && subasta.Pujas.Count > 0)
+                    {
+                        var pujaGanadora = subasta.Pujas
+                            .OrderByDescending(p => p.Monto)
+                            .First();
+
+                        subasta.IdGanador = pujaGanadora.Postor.IdPostor;
+                        subasta.MontoActual = pujaGanadora.Monto;
+                    }
+
+                    _subastaRepository.ActualizarSubasta(subasta);
+                }
+            }
+        }
+
     }
 }
+

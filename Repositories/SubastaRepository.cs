@@ -11,7 +11,7 @@ namespace Subastas_Final.Repositories
 
         public SubastaRepository()
         {
-            // No reiniciar la lista estática
+            
         }
 
         public void CrearSubasta(Subasta subasta)
@@ -43,8 +43,6 @@ namespace Subastas_Final.Repositories
             subasta.IdGanador = subastaActualizada.IdGanador;
             subasta.MontoActual = subastaActualizada.MontoActual;
             subasta.Articulo = subastaActualizada.Articulo;
-
-            
             subasta.Postores = subastaActualizada.Postores;
             subasta.Pujas = subastaActualizada.Pujas;
         }

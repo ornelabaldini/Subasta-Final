@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Subastas_Final.Entities
 {
@@ -43,6 +41,30 @@ namespace Subastas_Final.Entities
             subastador = new Subastador();
             pujas = new List<Puja>();
 
+        }
+        public Postor PostorGanador
+        {
+            get
+            {
+                if (pujas == null || pujas.Count == 0)
+                    return null;
+
+                return pujas
+                    .OrderByDescending(p => p.Monto)
+                    .First()
+                    .Postor;
+            }
+        }
+
+        public decimal MontoFinal
+        {
+            get
+            {
+                if (pujas == null || pujas.Count == 0)
+                    return precioBase;
+
+                return pujas.Max(p => p.Monto);
+            }
         }
 
         public override string ToString()
