@@ -94,8 +94,6 @@ namespace Subastas_Final.Views
             dgvSubastas_SelectionChanged(null, null);
         }
 
-
-
         private List<object> TransformarParaGrid(List<Subasta> listaSubastas)
         {
             var postorController = new PostorController();
@@ -153,9 +151,6 @@ namespace Subastas_Final.Views
 
             decimal minimo = subasta.MontoActual + subasta.PujaMinima;
 
-            nudMonto.Minimum = minimo;
-
- 
         }
 
         private void btnPujar_Click(object sender, EventArgs e)
@@ -190,7 +185,6 @@ namespace Subastas_Final.Views
 
             if (!ok)
             {
-                MessageBox.Show("La puja no cumple el mínimo.", "Error");
                 return;
             }
 

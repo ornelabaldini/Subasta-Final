@@ -105,7 +105,6 @@ namespace Subastas_Final.Services
                 return false;
             }
 
-
             // El subastador no puede pujar
             if (subasta.Subastador.Email == postor.Email)
             {
@@ -113,13 +112,14 @@ namespace Subastas_Final.Services
                 return false;
             }
 
-
-
             decimal montoMinimo = subasta.Pujas.Count == 0 ? subasta.PrecioBase : subasta.MontoActual + subasta.PujaMinima;
 
-
             if (montoIngresado < montoMinimo)
+            {
+                MessageBox.Show($"El monto mínimo para pujar es {montoMinimo:C}. Debe ingresar un valor igual o mayor.", "Atención");
                 return false;
+            }
+
 
             var nuevaPuja = new Puja(postor, subasta, montoIngresado, DateTime.Now);
             subasta.Pujas.Add(nuevaPuja);
