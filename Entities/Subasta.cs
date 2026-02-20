@@ -42,34 +42,6 @@ namespace Subastas_Final.Entities
             pujas = new List<Puja>();
 
         }
-        public Postor PostorGanador
-        {
-            get
-            {
-                if (pujas == null || pujas.Count == 0)
-                    return null;
 
-                return pujas
-                    .OrderByDescending(p => p.Monto)
-                    .First()
-                    .Postor;
-            }
-        }
-
-        public decimal MontoFinal
-        {
-            get
-            {
-                if (pujas == null || pujas.Count == 0)
-                    return precioBase;
-
-                return pujas.Max(p => p.Monto);
-            }
-        }
-
-        public override string ToString()
-        {
-            return $"Subasta ID: {idSubasta}, Fecha Inicio: {fechaInicio}, Fecha Fin: {fechaFin}, Pujas: {Pujas.Count}, Precio Base: {precioBase}, Estado: {estado}, Monto Actual: {montoActual}";
-        }
     }
 }

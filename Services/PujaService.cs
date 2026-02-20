@@ -1,6 +1,7 @@
 ﻿using Subastas_Final.Entities;
 using Subastas_Final.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Subastas_Final.Services
@@ -30,7 +31,7 @@ namespace Subastas_Final.Services
                 return false;
 
             // El subastador no puede pujar
-            if (subasta.Subastador.Email == postor.Email)
+            if (subasta.Subastador.IdSubastador == postor.IdPostor)
                 return false;
 
             decimal montoMinimo = subasta.Pujas.Count == 0
@@ -40,13 +41,10 @@ namespace Subastas_Final.Services
             if (montoIngresado < montoMinimo)
                 return false;
 
-            // Crear puja
             var nuevaPuja = new Puja(postor, subasta, montoIngresado, DateTime.Now);
 
-            // Persistir en repositorio
             _pujaRepository.CrearPuja(nuevaPuja);
 
-            // Agregar a la subasta
             subasta.Pujas.Add(nuevaPuja);
 
             if (!subasta.Postores.Any(p => p.IdPostor == postor.IdPostor))
@@ -58,6 +56,44 @@ namespace Subastas_Final.Services
             _subastaRepository.ActualizarSubasta(subasta);
 
             return true;
+        }
+
+        public List<Puja> ObtenerTodasPujas()
+        {
+            return _pujaRepository.ObtenerTodasPujas();
+        }
+
+        public Puja ObtenerPujaPorId(int idPuja)
+        {
+            return _pujaRepository.ObtenerPujaPorId(idPuja);
+        }
+
+        public List<Puja> ObtenerPujasPorSubasta(int idSubasta)
+        {
+            return _pujaRepository
+                .ObtenerTodasPujas()
+                .Where(p => p.Subasta.IdSubasta == idSubasta)
+                .OrderByDescending(p => p.Fecha)
+                .ToList();
+        }
+
+        public List<Puja> ObtenerPujasPorPostor(int idPostor)
+        {
+            return _pujaRepository
+                .ObtenerTodasPujas()
+                .Where(p => p.Postor.IdPostor == idPostor)
+                .OrderByDescending(p => p.Fecha)
+                .ToList();
+        }
+
+        public void ActualizarPuja(Puja puja)
+        {
+            _pujaRepository.ActualizarPuja(puja);
+        }
+
+        public void EliminarPuja(int idPuja)
+        {
+            _pujaRepository.EliminarPuja(idPuja);
         }
     }
 }

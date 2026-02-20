@@ -24,41 +24,39 @@ namespace Subastas_Final.Views
         
         private void btnGuardar_Click(object sender, EventArgs e)
 {
-    // 1️⃣ Validar que no estén vacíos
+    // Validar que no estén vacíos
     if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtEmail.Text))
     {
         MessageBox.Show("Por favor completa todos los campos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return;
     }
 
-    // 2️⃣ Validar email simple
+    //  Validar email simple
     if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
     {
         MessageBox.Show("Ingresa un email válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return;
     }
 
-    // 3️⃣ Crear objeto Subastador
+    //  Crear objeto Subastador
     Subastador nuevoSubastador = new Subastador
     {
         Nombre = txtNombre.Text,
         Email = txtEmail.Text
     };
 
-    // 4️⃣ Guardar usando el Controller, obtener el registrado (ya tiene ID correcto)
+    // Guardar usando el Controller, obtener el registrado
     Subastador registrado;
     bool creado = subastadorController.CrearSubastador(nuevoSubastador, out registrado);
 
-    // 5️⃣ Asignar la propiedad para la ventana llamante
+    // Asignar la propiedad para la ventana llamante
     this.Subastador = registrado;
 
-    // 6️⃣ Mostrar mensaje según corresponda
     if (creado)
         MessageBox.Show("Registro exitoso!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
     else
         MessageBox.Show("Ya existe un subastador con ese email. Se cargaron sus datos existentes.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-    // 7️⃣ Cerrar el formulario con resultado OK
     this.DialogResult = DialogResult.OK;
     this.Close();
 }
@@ -68,8 +66,8 @@ namespace Subastas_Final.Views
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true; // evita pitido
-                txtEmail.Focus();          // pasa el foco al email
+                e.SuppressKeyPress = true; 
+                txtEmail.Focus();          
             }
         }
 
@@ -77,8 +75,8 @@ namespace Subastas_Final.Views
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;   // evita pitido
-                btnGuardar.PerformClick();   // simula click en Guardar
+                e.SuppressKeyPress = true;   
+                btnGuardar.PerformClick(); 
             }
         }
     }

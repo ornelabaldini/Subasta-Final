@@ -3,7 +3,6 @@ using Subastas_Final.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace Subastas_Final.Services
 {
@@ -70,17 +69,6 @@ namespace Subastas_Final.Services
                 return false;
 
             _subastaRepository.ActualizarSubasta(subastaActualizada);
-            return true;
-        }
-
-        public bool ActualizarPostorGanador(int idSubasta, int idGanador)
-        {
-            var subasta = _subastaRepository.ObtenerSubastaPorId(idSubasta);
-            if (subasta == null)
-                return false;
-
-            subasta.IdGanador = idGanador;
-            _subastaRepository.ActualizarSubasta(subasta);
             return true;
         }
 

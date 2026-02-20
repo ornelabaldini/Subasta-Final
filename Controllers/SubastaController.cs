@@ -43,6 +43,7 @@ namespace Subastas_Final.Controllers
         {
             return _subastaService.FiltrarSubastas(tipoFiltro);
         }
+
         public void ActualizarSubastasVencidas()
         {
             _subastaService.ActualizarSubastasVencidas();

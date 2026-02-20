@@ -25,8 +25,6 @@ namespace Subastas_Final.Views
             subastasNotificadas = new List<int>();
             postorController = new PostorController();
 
-
-            // Configurar ComboBox
             cmbFiltroSubastas.Items.AddRange(new string[]
             {
              "Últimas 10 finalizadas",
@@ -73,7 +71,6 @@ namespace Subastas_Final.Views
             if (cmbFiltroSubastas.SelectedItem == null)
                 return;
 
-            //  Actualizar vencidas
             subastaController.ActualizarSubastasVencidas();
 
             // Obtener solo las subastas de este subastador
@@ -81,10 +78,8 @@ namespace Subastas_Final.Views
                 .ObtenerTodasSubastas()
                 .Where(s => s.Subastador.IdSubastador == subastador.IdSubastador)
                 .ToList();
+      
 
-           
-
-            // Notificación automática solo si recién pasó a cerrada
             foreach (var s in listaSubastador)
             {
                 if (!s.Estado && !subastasNotificadas.Contains(s.IdSubasta))
@@ -132,7 +127,6 @@ namespace Subastas_Final.Views
 
             AjustarColumnasSubastas();
         }
-
 
         private void btnCrearSubasta_Click(object sender, EventArgs e)
         {
@@ -292,7 +286,7 @@ namespace Subastas_Final.Views
                     FechaFin = s.FechaFin,
                     Subastador = s.Subastador.Nombre,
                     Pujas = s.Pujas?.Count ?? 0,
-                    Ganador = s.IdGanador != 0
+                    VaGanando = s.IdGanador != 0
                     ? postorController.ObtenerPostorPorId(s.IdGanador)?.Nombre
                     : "Sin ganador",
 
@@ -309,7 +303,6 @@ namespace Subastas_Final.Views
             var postores = postorController.ObtenerTodosPostores();
             var subastadores = subastadorController.ObtenerTodosSubastadores();
 
-            // Construir texto para mostrar
             string info = " ~ POSTORES:\n";
             foreach (var p in postores)
                 info += $"- ID: {p.IdPostor},{p.Nombre},{p.Email}\n";
@@ -318,7 +311,6 @@ namespace Subastas_Final.Views
             foreach (var s in subastadores)
                 info += $"- ID: {s.IdSubastador},{s.Nombre},{s.Email}\n";
 
-            // Mostrar en MessageBox
             MessageBox.Show(info, "Usuarios Registrados", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }

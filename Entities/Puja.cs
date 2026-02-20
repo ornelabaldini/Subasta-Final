@@ -24,13 +24,6 @@ namespace Subastas_Final.Entities
             this.fecha = fecha;
         }
 
-        public Puja()
-        {
-        }
 
-        public override string ToString()
-        {
-            return $"Puja Id: {idPuja}, Monto: {monto}, Fecha: {fecha}, Postor: {postor?.Nombre}, Subasta: {subasta?.IdSubasta}";
-        }
     }
 }

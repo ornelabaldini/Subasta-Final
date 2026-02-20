@@ -113,7 +113,7 @@ namespace Subastas_Final.Views
                     FechaFin = s.FechaFin,
                     Subastador = s.Subastador.Nombre,
                     Pujas = s.Pujas?.Count ?? 0,
-                    Ganador = s.IdGanador != 0
+                    VaGanando = s.IdGanador != 0
                         ? postorController.ObtenerPostorPorId(s.IdGanador)?.Nombre
                         : "Sin ganador",
 

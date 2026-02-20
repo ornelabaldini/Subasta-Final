@@ -8,7 +8,6 @@ namespace Subastas_Final.Entities
         private int idSubastador;
         private string nombre;
         private string email;
-        private List<Subasta> subastas;
 
         public int IdSubastador { get => idSubastador; set => idSubastador = value; }
 
@@ -16,16 +15,11 @@ namespace Subastas_Final.Entities
 
         public string Email { get => email; set => email = value; }
 
-        public List<Subasta> Subastas { get => subastas; set => subastas = value; }
-
         public Subastador()
         {
-            subastas = new List<Subasta>();
+            
         }
 
-        public override string ToString()
-        {
-            return $"Subastador ID: {idSubastador}, Nombre: {nombre}, Email: {email}";
-        }
+       
     }
 }

@@ -21,14 +21,17 @@ namespace Subastas_Final.Controllers
         {
             return _subastadorService.ObtenerTodosSubastadores();
         }
+
         public Subastador ObtenerSubastadorPorId(int idSubastador)
         {
             return _subastadorService.ObtenerSubastadorPorId(idSubastador);
         }
+
         public bool ActualizarSubastador(Subastador subastadorActualizado)
         {
             return _subastadorService.ActualizarSubastador(subastadorActualizado);
         }
+
         public bool EliminarSubastador(int idSubastador)
         {
             return _subastadorService.EliminarSubastador(idSubastador);

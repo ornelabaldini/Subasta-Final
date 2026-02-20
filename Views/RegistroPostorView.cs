@@ -24,14 +24,13 @@ namespace Subastas_Final.Views
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validar campos
+            
             if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtEmail.Text))
             {
                 MessageBox.Show("Por favor completa todos los campos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Validar email
             if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 MessageBox.Show("Ingresa un email válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -47,7 +46,6 @@ namespace Subastas_Final.Views
 
             bool creado = postorController.CrearPostor(nuevoPostor, out Postor registrado);
 
-            // Guardamos el objeto registrado (ya sea nuevo o existente)
             this.Postor = registrado;
 
             if (creado)
@@ -55,7 +53,6 @@ namespace Subastas_Final.Views
             else
                 MessageBox.Show("Bienvenid@", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Cerrar el formulario
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

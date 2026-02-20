@@ -11,9 +11,5 @@ namespace Subastas_Final.Entities
 
         public Articulo() { }
 
-        public override string ToString()
-        {
-            return $"Articulo ID: {idArticulo}, Nombre: {nombre}";
-        }
     }
 }
