@@ -84,57 +84,6 @@ namespace Subastas_Final.Services
             return true;
         }
 
-        public bool Pujar(int idSubasta, Postor postor, decimal montoIngresado)
-        {
-            if (postor == null)
-                return false;
-
-            var subasta = ObtenerSubastaPorId(idSubasta);
-            if (subasta == null || !subasta.Estado)
-                return false;
-
-            // Cerrar subasta si ya venció
-            if (DateTime.Now >= subasta.FechaFin)
-            {
-                subasta.Estado = false;
-
-                if (subasta.PostorGanador != null)
-                    subasta.IdGanador = subasta.PostorGanador.IdPostor;
-
-                _subastaRepository.ActualizarSubasta(subasta);
-                return false;
-            }
-
-            // El subastador no puede pujar
-            if (subasta.Subastador.Email == postor.Email)
-            {
-                MessageBox.Show("No podés pujar tu propia subasta.", "Atención");
-                return false;
-            }
-
-            decimal montoMinimo = subasta.Pujas.Count == 0 ? subasta.PrecioBase : subasta.MontoActual + subasta.PujaMinima;
-
-            if (montoIngresado < montoMinimo)
-            {
-                MessageBox.Show($"El monto mínimo para pujar es {montoMinimo:C}. Debe ingresar un valor igual o mayor.", "Atención");
-                return false;
-            }
-
-
-            var nuevaPuja = new Puja(postor, subasta, montoIngresado, DateTime.Now);
-            subasta.Pujas.Add(nuevaPuja);
-
-            if (!subasta.Postores.Any(p => p.IdPostor == postor.IdPostor))
-                subasta.Postores.Add(postor);
-
-            subasta.MontoActual = montoIngresado;
-
-            // persistir los cambios
-            _subastaRepository.ActualizarSubasta(subasta);
-
-            return true;
-        }
-    
         public List<Subasta> FiltrarSubastas(string tipoFiltro)
             {
                 var todas = ObtenerTodasSubastas() ?? new List<Subasta>();

@@ -109,8 +109,7 @@
             // 
             this.cmbFiltroSubastas.FormattingEnabled = true;
             this.cmbFiltroSubastas.Items.AddRange(new object[] {
-            "Subastas en curso",
-            "Últimas 10 finalizadas"});
+            "Subastas en curso"});
             this.cmbFiltroSubastas.Location = new System.Drawing.Point(22, 109);
             this.cmbFiltroSubastas.Name = "cmbFiltroSubastas";
             this.cmbFiltroSubastas.Size = new System.Drawing.Size(172, 28);

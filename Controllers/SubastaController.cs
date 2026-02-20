@@ -39,16 +39,6 @@ namespace Subastas_Final.Controllers
             return _subastaService.EliminarSubasta(idSubasta);
         }
 
-        public bool ActualizarPostorGanador(int idSubasta, int idGanador)
-        {
-            return _subastaService.ActualizarPostorGanador(idSubasta, idGanador);
-        }
-
-        public bool Pujar(int idSubasta, Postor postor, decimal montoIngresado)
-        {
-            return _subastaService.Pujar(idSubasta, postor, montoIngresado);
-        }
-
         public List<Subasta> FiltrarSubastas(string tipoFiltro)
         {
             return _subastaService.FiltrarSubastas(tipoFiltro);

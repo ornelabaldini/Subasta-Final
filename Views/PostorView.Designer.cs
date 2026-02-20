@@ -70,6 +70,7 @@
             this.dgvSubastas.RowTemplate.Height = 28;
             this.dgvSubastas.Size = new System.Drawing.Size(1175, 378);
             this.dgvSubastas.TabIndex = 3;
+            this.dgvSubastas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSubastas_CellClick);
             // 
             // btnPujar
             // 

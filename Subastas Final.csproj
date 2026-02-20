@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Controllers\ArticuloController.cs" />
     <Compile Include="Controllers\PostorController.cs" />
+    <Compile Include="Controllers\PujaController.cs" />
     <Compile Include="Controllers\SubastaController.cs" />
     <Compile Include="Controllers\SubastadorController.cs" />
     <Compile Include="Entities\Articulo.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Entities\Subastador.cs" />
     <Compile Include="Interfaces\IPujaRepository.cs" />
     <Compile Include="Repositories\PujaRepository.cs" />
+    <Compile Include="Services\PujaService.cs" />
     <Compile Include="Views\RegistroPostorView.cs">
       <SubType>Form</SubType>
     </Compile>
