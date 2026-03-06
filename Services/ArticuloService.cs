@@ -3,9 +3,10 @@ using Subastas_Final.Repositories;
 using System.Collections.Generic;
 
 
+
 namespace Subastas_Final.Services
 {
-    internal class ArticuloService
+    internal class ArticuloService 
     {
         readonly ArticuloRepository _articuloRepository;
 

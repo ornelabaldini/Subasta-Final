@@ -9,12 +9,11 @@ namespace Subastas_Final.Services
     internal class PujaService
     {
         private readonly PujaRepository _pujaRepository;
-        private readonly SubastaRepository _subastaRepository;
+        private static SubastaRepository _subastaRepository = new SubastaRepository();
 
         public PujaService()
         {
             _pujaRepository = new PujaRepository();
-            _subastaRepository = new SubastaRepository();
         }
 
         public bool CrearPuja(int idSubasta, Postor postor, decimal montoIngresado)
@@ -30,8 +29,7 @@ namespace Subastas_Final.Services
             if (DateTime.Now >= subasta.FechaFin)
                 return false;
 
-            // El subastador no puede pujar
-            if (subasta.Subastador.IdSubastador == postor.IdPostor)
+            if (subasta.Subastador.Email == postor.Email)
                 return false;
 
             decimal montoMinimo = subasta.Pujas.Count == 0

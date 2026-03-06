@@ -1,6 +1,7 @@
 ﻿using Subastas_Final.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using Subastas_Final.Interfaces;
 
 namespace Subastas_Final.Repositories
 {
@@ -11,7 +12,7 @@ namespace Subastas_Final.Repositories
 
         public void CrearPuja(Puja puja)
         {
-            puja.IdPuja = siguienteIdPuja++;  // asigna ID automáticamente
+            puja.IdPuja = siguienteIdPuja++; 
             pujas.Add(puja);
         }
 

@@ -1,11 +1,12 @@
 ﻿using Subastas_Final.Entities;
+using Subastas_Final.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
 
 namespace Subastas_Final.Repositories
 {
-    internal class PostorRepository
+    internal class PostorRepository : IPostorRepository
     {
         private static List<Postor> postores = new List<Postor>();
 

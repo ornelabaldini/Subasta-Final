@@ -1,10 +1,11 @@
 ﻿using Subastas_Final.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using Subastas_Final.Interfaces;
 
 namespace Subastas_Final.Repositories
 {
-    internal class ArticuloRepository
+    internal class ArticuloRepository : IArticuloRepository
     {
         private static List<Articulo> articulos = new List<Articulo>();
 

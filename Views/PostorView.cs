@@ -80,7 +80,6 @@ namespace Subastas_Final.Views
 
             // Revisar todas las subastas para notificación automática
             var todas = subastaController.ObtenerTodasSubastas();
-            
 
             // Aplicar filtro para mostrar en la grilla
             var lista = subastaController.FiltrarSubastas(
@@ -203,10 +202,7 @@ namespace Subastas_Final.Views
             if (!ok)
             {
                 MessageBox.Show(
-                    "La puja no es válida.\n\nPuede ser que:\n" +
-                    "- No supere el monto mínimo\n" +
-                    "- La subasta esté cerrada\n" +
-                    "- Seas el subastador\n",
+                    "La puja no es válida.",
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning

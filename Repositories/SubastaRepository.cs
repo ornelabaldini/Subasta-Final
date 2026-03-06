@@ -1,10 +1,10 @@
 ﻿using Subastas_Final.Entities;
 using System.Collections.Generic;
 using System.Linq;
-
+using Subastas_Final.Interfaces;
 namespace Subastas_Final.Repositories
 {
-    internal class SubastaRepository
+    internal class SubastaRepository : ISubastaRepository
     {
         private static List<Subasta> subastas = new List<Subasta>();
         private static int siguienteIdSubasta = 1;
