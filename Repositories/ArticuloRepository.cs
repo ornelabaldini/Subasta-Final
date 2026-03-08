@@ -9,11 +9,9 @@ namespace Subastas_Final.Repositories
     {
         private static List<Articulo> articulos = new List<Articulo>();
 
-        private static int siguienteIdArticulo = 1;
+        private static int siguienteIdArticulo = 0;
 
         public List<Articulo> Articulos { get => articulos; }
-
-        public int SiguienteIdArticulo { get => siguienteIdArticulo++; }
 
         public ArticuloRepository()
         {
@@ -22,7 +20,9 @@ namespace Subastas_Final.Repositories
 
         public void CrearArticulo(Articulo articulo)
         {
-            articulo.IdArticulo = SiguienteIdArticulo;
+          
+            siguienteIdArticulo++;
+            articulo.IdArticulo = siguienteIdArticulo;
             articulos.Add(articulo);
         }
 

@@ -16,20 +16,17 @@ namespace Subastas_Final.Services
 
         public bool CrearPostor(Postor nuevoPostor, out Postor registrado)
         {
-            // Verificar si ya existe por email
             var existente = _postorRepository.ObtenerTodosPostores()
                 .Find(p => p.Email.ToLower() == nuevoPostor.Email.ToLower());
 
             if (existente != null)
             {
-                registrado = existente; // devolvemos el existente
-                return false;            // no se creó uno nuevo
+                registrado = existente; 
+                return false;           
             }
-
-            // Guardar usando el repositorio (que asigna el ID)
             _postorRepository.CrearPostor(nuevoPostor);
             registrado = nuevoPostor;
-            return true;                 // se creó uno nuevo
+            return true;                
         }
 
         public List<Postor> ObtenerTodosPostores()

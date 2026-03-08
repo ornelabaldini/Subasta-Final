@@ -12,10 +12,10 @@ namespace Subastas_Final.Views
         private Postor postor;
         private SubastaController subastaController;
         private PostorController postorController;
-        private List<int> subastasNotificadas = new List<int>();
         private PujaController pujaController;
+        private SubastadorController subastadorController;
         private Timer timer;
-
+        private ArticuloController articuloController;
 
         public PostorView(Postor post)
         {
@@ -25,6 +25,8 @@ namespace Subastas_Final.Views
             subastaController = new SubastaController();
             pujaController = new PujaController();
             postorController = new PostorController();
+            subastadorController = new SubastadorController();
+            articuloController = new ArticuloController();
 
 
             lblBienvenido.Text = $"Bienvenid@ {postor.Nombre}";
@@ -78,9 +80,6 @@ namespace Subastas_Final.Views
             // Actualizar vencidas
             subastaController.ActualizarSubastasVencidas();
 
-            // Revisar todas las subastas para notificación automática
-            var todas = subastaController.ObtenerTodasSubastas();
-
             // Aplicar filtro para mostrar en la grilla
             var lista = subastaController.FiltrarSubastas(
                 cmbFiltroSubastas.SelectedItem.ToString()
@@ -96,7 +95,6 @@ namespace Subastas_Final.Views
 
         private List<object> TransformarParaGrid(List<Subasta> listaSubastas)
         {
-            var postorController = new PostorController();
 
             return listaSubastas
 
@@ -115,10 +113,6 @@ namespace Subastas_Final.Views
                     VaGanando = s.IdGanador != 0
                         ? postorController.ObtenerPostorPorId(s.IdGanador)?.Nombre
                         : "Sin ganador",
-
-                   //Diferencia = s.IdGanador != 0
-                       // ? s.MontoActual - s.PrecioBase
-                        //: 0
 
                 })
                 .ToList<object>();
@@ -218,14 +212,10 @@ namespace Subastas_Final.Views
 
         private void btnVerUsuarios_Click(object sender, EventArgs e)
         {
-            var postorController = new PostorController();
-            var subastadorController = new SubastadorController();
-
-            // Obtener listas
+            var articulos = articuloController.ObtenerTodosArticulos();
             var postores = postorController.ObtenerTodosPostores();
             var subastadores = subastadorController.ObtenerTodosSubastadores();
 
-            // Construir texto para mostrar
             string info = " ~ POSTORES:\n";
             foreach (var p in postores)
                 info += $"- ID: {p.IdPostor},{p.Nombre},{p.Email}\n";
@@ -234,7 +224,11 @@ namespace Subastas_Final.Views
             foreach (var s in subastadores)
                 info += $"-ID: {s.IdSubastador},{s.Nombre},{s.Email}\n";
 
-            // Mostrar en MessageBox
+            info += "\n~ ARTICULOS:\n";
+
+            foreach (var a in articulos)
+                info += $"- ID: {a.IdArticulo},{a.Nombre}\n";
+
             MessageBox.Show(info, "Usuarios Registrados", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -263,7 +257,6 @@ namespace Subastas_Final.Views
                 return;
             }
 
-            var postorController = new PostorController();
             var ganador = postorController.ObtenerPostorPorId(subasta.IdGanador);
 
             decimal diferencia = subasta.MontoActual - subasta.PrecioBase;

@@ -13,6 +13,8 @@ namespace Subastas_Final.Views
         private Subastador subastador;
         private SubastaController subastaController;
         private PostorController postorController;
+        private ArticuloController articuloController;
+        private SubastadorController subastadorController;
 
         private List<int> subastasNotificadas = new List<int>();
         private Timer timer;
@@ -24,6 +26,8 @@ namespace Subastas_Final.Views
             subastaController = new SubastaController();
             subastasNotificadas = new List<int>();
             postorController = new PostorController();
+            articuloController = new ArticuloController();
+            subastadorController = new SubastadorController();  
 
             cmbFiltroSubastas.Items.AddRange(new string[]
             {
@@ -152,9 +156,16 @@ namespace Subastas_Final.Views
                     return;
                 }
 
+                Articulo articulo = new Articulo
+                {
+                    Nombre = txtArticulo.Text
+                };
+
+                articuloController.CrearArticulo(articulo);
+
                 var subasta = new Subasta
                 {
-                    Articulo = new Articulo { Nombre = txtArticulo.Text },
+                    Articulo = articulo,
                     PrecioBase = precioBase,
                     PujaMinima = pujaMinima,
                     MontoActual = precioBase,                  
@@ -271,11 +282,9 @@ namespace Subastas_Final.Views
 
         private List<object> TransformarParaGrid(List<Subasta> listaSubastas)
         {
-            var postorController = new PostorController();
-
             return listaSubastas
                 .Where(s => s != null)
-                .Select(s => new
+                .Select(s => new  // Por cada Subasta crea un objeto
                 {
                     IdSubasta = s.IdSubasta,
                     Articulo = s.Articulo.Nombre,
@@ -291,15 +300,13 @@ namespace Subastas_Final.Views
                     : "Sin ganador",
 
                 })
-                .ToList<object>();
+                .ToList<object>(); // Genera una lista final que el DataGridView puede usar
         }
 
         private void btnVerUsuarios_Click(object sender, EventArgs e)
         {
-            var postorController = new PostorController();
-            var subastadorController = new SubastadorController();
-
             // Obtener listas
+            var articulos = articuloController.ObtenerTodosArticulos();   
             var postores = postorController.ObtenerTodosPostores();
             var subastadores = subastadorController.ObtenerTodosSubastadores();
 
@@ -310,6 +317,11 @@ namespace Subastas_Final.Views
             info += "\n~ SUBASTADORES:\n";
             foreach (var s in subastadores)
                 info += $"- ID: {s.IdSubastador},{s.Nombre},{s.Email}\n";
+
+            info += "\n~ ARTICULOS:\n";
+
+            foreach (var a in articulos)
+                info += $"- ID: {a.IdArticulo},{a.Nombre}\n";
 
             MessageBox.Show(info, "Usuarios Registrados", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

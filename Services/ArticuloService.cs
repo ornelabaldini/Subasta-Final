@@ -1,6 +1,7 @@
 ﻿using Subastas_Final.Entities;
 using Subastas_Final.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 
 
 
@@ -17,7 +18,6 @@ namespace Subastas_Final.Services
 
         public bool CrearArticulo(Articulo nuevoArticulo)
         {
-            nuevoArticulo.IdArticulo = _articuloRepository.SiguienteIdArticulo;
             _articuloRepository.CrearArticulo(nuevoArticulo);
             return true;
         }

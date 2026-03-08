@@ -22,17 +22,15 @@ namespace Subastas_Final.Services
 
             DateTime ahora = DateTime.Now;
 
-            // La fecha de inicio siempre la define el sistema
             nuevaSubasta.FechaInicio = ahora;
 
-            // Validaciones de fecha
             if (nuevaSubasta.FechaFin <= ahora)
                 return false;
 
             if (nuevaSubasta.FechaFin < ahora.AddMinutes(1))
                 return false;
 
-            // Inicializaciones obligatorias
+            // Inicializaciones 
             nuevaSubasta.Estado = true;
             nuevaSubasta.MontoActual = nuevaSubasta.PrecioBase;
             nuevaSubasta.Pujas = new List<Puja>();
