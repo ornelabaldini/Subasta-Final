@@ -18,10 +18,6 @@ namespace Subastas_Final.Controllers
             return _pujaService.CrearPuja(idSubasta, postor, monto);
         }
 
-        public List<Puja> ObtenerTodasPujas()
-        {
-            return _pujaService.ObtenerTodasPujas();
-        }
 
         public Puja ObtenerPujaPorId(int idPuja)
         {

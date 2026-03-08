@@ -33,6 +33,14 @@ namespace Subastas_Final.Entities
         public Articulo Articulo { get => articulo; set => articulo = value; }
         public List<Puja> Pujas { get => pujas; set => pujas = value; }
         public decimal PujaMinima { get => pujaMinima; set => pujaMinima = value; }
+        public string GanadorNombre
+        {
+            get
+            {
+                var ganador = Postores.FirstOrDefault(p => p.IdPostor == IdGanador);
+                return ganador != null ? ganador.Nombre : "Sin ganador";
+            }
+        }
 
         public Subasta()
         {

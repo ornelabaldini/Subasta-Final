@@ -56,11 +56,6 @@ namespace Subastas_Final.Services
             return true;
         }
 
-        public List<Puja> ObtenerTodasPujas()
-        {
-            return _pujaRepository.ObtenerTodasPujas();
-        }
-
         public Puja ObtenerPujaPorId(int idPuja)
         {
             return _pujaRepository.ObtenerPujaPorId(idPuja);

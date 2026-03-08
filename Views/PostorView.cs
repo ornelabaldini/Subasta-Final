@@ -77,7 +77,6 @@ namespace Subastas_Final.Views
             if (cmbFiltroSubastas.SelectedItem == null)
                 return;
 
-            // Actualizar vencidas
             subastaController.ActualizarSubastasVencidas();
 
             // Aplicar filtro para mostrar en la grilla
@@ -110,9 +109,7 @@ namespace Subastas_Final.Views
                     FechaFin = s.FechaFin,
                     Subastador = s.Subastador.Nombre,
                     Pujas = s.Pujas?.Count ?? 0,
-                    VaGanando = s.IdGanador != 0
-                        ? postorController.ObtenerPostorPorId(s.IdGanador)?.Nombre
-                        : "Sin ganador",
+                    VaGanando = s.GanadorNombre,
 
                 })
                 .ToList<object>();
@@ -157,11 +154,9 @@ namespace Subastas_Final.Views
 
             var subasta = subastaController.ObtenerSubastaPorId(idSubasta);
             if (subasta == null) return;
-
-            decimal minimo = subasta.MontoActual + subasta.PujaMinima;
-
         }
 
+        
         private void btnPujar_Click(object sender, EventArgs e)
         {
             if (dgvSubastas.SelectedRows.Count == 0)
