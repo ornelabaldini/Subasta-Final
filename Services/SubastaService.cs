@@ -1,5 +1,6 @@
 ﻿using Subastas_Final.Entities;
 using Subastas_Final.Repositories;
+using Subastas_Final.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace Subastas_Final.Services
 {
     internal class SubastaService
     {
-        private readonly SubastaRepository _subastaRepository;
+        private readonly ISubastaRepository _subastaRepository;
 
         public SubastaService()
         {

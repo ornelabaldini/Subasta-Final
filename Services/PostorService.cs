@@ -1,13 +1,14 @@
 ﻿using Subastas_Final.Entities;
 using Subastas_Final.Repositories;
 using System.Collections.Generic;
+using Subastas_Final.Interfaces;
 
 
 namespace Subastas_Final.Services
 {
     internal class PostorService
     {
-        readonly PostorRepository _postorRepository;
+        readonly IPostorRepository _postorRepository;
 
         public PostorService()
         {

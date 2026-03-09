@@ -2,6 +2,7 @@
 using Subastas_Final.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using Subastas_Final.Interfaces;
 
 
 
@@ -9,7 +10,7 @@ namespace Subastas_Final.Services
 {
     internal class ArticuloService 
     {
-        readonly ArticuloRepository _articuloRepository;
+        readonly IArticuloRepository _articuloRepository;
 
         public ArticuloService()
         {

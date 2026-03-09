@@ -3,13 +3,14 @@ using Subastas_Final.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Subastas_Final.Interfaces;
 
 namespace Subastas_Final.Services
 {
     internal class PujaService
     {
-        private readonly PujaRepository _pujaRepository;
-        private static SubastaRepository _subastaRepository = new SubastaRepository();
+        private readonly IPujaRepository _pujaRepository;
+        private static ISubastaRepository _subastaRepository = new SubastaRepository();
 
         public PujaService()
         {

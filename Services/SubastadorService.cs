@@ -1,13 +1,14 @@
 ﻿using Subastas_Final.Entities;
 using Subastas_Final.Repositories;
 using System.Collections.Generic;
+using Subastas_Final.Interfaces;
 
 
 namespace Subastas_Final.Services
 {
     internal class SubastadorService
     {
-        readonly SubastadorRepository _subastadorRepository;
+        readonly ISubastadorRepository _subastadorRepository;
         public SubastadorService()
         {
             _subastadorRepository = new SubastadorRepository();
