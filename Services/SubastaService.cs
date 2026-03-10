@@ -87,9 +87,6 @@ namespace Subastas_Final.Services
                                     .Take(10)
                                     .ToList();
 
-                    case "Subastas pendientes":
-                        return todas.Where(s => s.FechaInicio > hoy).ToList();
-
                     default:
                         return todas;
                 }

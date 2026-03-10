@@ -56,6 +56,7 @@
     <Compile Include="Entities\Puja.cs" />
     <Compile Include="Entities\Subasta.cs" />
     <Compile Include="Entities\Subastador.cs" />
+    <Compile Include="Entities\Usuario.cs" />
     <Compile Include="Interfaces\IPujaRepository.cs" />
     <Compile Include="Repositories\PujaRepository.cs" />
     <Compile Include="Services\PujaService.cs" />
